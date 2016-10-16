@@ -12,6 +12,7 @@ namespace Eternal
 		{
 			Matrix4x4 ViewProjection;
 			Matrix4x4 ViewProjectionInverse;
+			Vector4 CameraPosition;
 		};
 	}
 }

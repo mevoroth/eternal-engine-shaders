@@ -11,5 +11,7 @@ PSIn VS( VSIn IN )
 	OUT.UV		= IN.UV;
 	OUT.Normal	= IN.Normal;
 
+	OUT.WorldPos = IN.Pos;
+
 	return OUT;
 }

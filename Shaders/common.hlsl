@@ -3,8 +3,9 @@
 
 cbuffer FrameConstants : register(b0)
 {
-	matrix ViewProjection;
-    matrix ViewProjectionInversed;
+	float4x4 ViewProjection;
+	float4x4 ViewProjectionInversed;
+	float4 CameraPosition;
 };
 
 #endif

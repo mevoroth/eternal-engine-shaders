@@ -9,5 +9,6 @@ Texture2D DiffuseTexture					: register(t1);
 Texture2D MetallicRoughnessSpecularTexture	: register(t2);
 Texture2D EmissiveTexture					: register(t3);
 Texture2D NormalTexture						: register(t4);
+Texture2D LightingTexture					: register(t5);
 
 #endif

@@ -5,12 +5,13 @@
 
 static const float2 Vertices[] =
 {
-	float2(-1.0f, -1.0f),
-	float2(1.0f, -1.0f),
-	float2(1.0f, 1.0f),
-	float2(-1.0f, 1.0f)
+	float2(-1.0f,	-1.0f),
+	float2( 1.0f,	-1.0f),
+	float2( 1.0f,	 1.0f),
+	float2(-1.0f,	 1.0f)
 };
 
+#ifdef POST_PROCESS_UV_INVERT
 static const float2 UVs[] =
 {
 	float2(0.0f, 1.0f),
@@ -18,6 +19,15 @@ static const float2 UVs[] =
 	float2(1.0f, 0.0f),
 	float2(0.0f, 0.0f)
 };
+#else
+static const float2 UVs[] =
+{
+	float2(0.0f, 0.0f),
+	float2(1.0f, 0.0f),
+	float2(1.0f, 1.0f),
+	float2(0.0f, 1.0f)
+};
+#endif
 
 static const uint Indices[] =
 {

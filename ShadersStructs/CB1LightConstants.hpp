@@ -19,6 +19,7 @@ namespace Eternal
 		{
 			Light Lights[8];
 			int LightsCount;
+			int _Dummy[3];
 		};
 	}
 }
