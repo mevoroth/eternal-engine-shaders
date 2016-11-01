@@ -138,6 +138,9 @@
     <FxCompile Include="Shaders\constants.common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Shaders\depthonly.ps.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Shaders\functions.common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -182,6 +185,7 @@
     <ClInclude Include="ShadersStructs\CB0FrameConstants.hpp" />
     <ClInclude Include="ShadersStructs\CB1LightConstants.hpp" />
     <ClInclude Include="ShadersStructs\CB1ObjectConstants.hpp" />
+    <ClInclude Include="ShadersStructs\SB5InstanceStructuredBuffer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

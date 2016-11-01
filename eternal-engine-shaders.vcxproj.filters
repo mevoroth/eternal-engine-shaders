@@ -66,6 +66,9 @@
     <FxCompile Include="Shaders\constants.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\depthonly.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersStructs\CB0FrameConstants.hpp">
@@ -75,6 +78,9 @@
       <Filter>ShadersStructs</Filter>
     </ClInclude>
     <ClInclude Include="ShadersStructs\CB1LightConstants.hpp">
+      <Filter>ShadersStructs</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersStructs\SB5InstanceStructuredBuffer.hpp">
       <Filter>ShadersStructs</Filter>
     </ClInclude>
   </ItemGroup>

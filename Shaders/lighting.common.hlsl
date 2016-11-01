@@ -32,12 +32,13 @@ Texture2D DepthTexture			: register(t0);
 Texture2D DiffuseTexture		: register(t1);
 Texture2D SpecularTexture		: register(t2);
 Texture2D NormalTexture			: register(t3);
+Texture2D RoughnessTexture		: register(t4);
 Texture2D DepthDebugTexture		: register(t10);
 
 float3 SpecularBRDF(float3 Specular, float Roughness2, float VdotH, float NdotH, float NdotV, float NdotL)
 {
 	//return Geometry(Roughness2, NdotV, NdotL).xxx;
-	//return Distribution(Roughness2, NdotH).xxx;
+	return Distribution(Roughness2, NdotH).xxx;
 	//return Fresnel(VdotH, Specular);
 	return Distribution(Roughness2, NdotH).xxx * Fresnel(VdotH, Specular) * Geometry(Roughness2, NdotV, NdotL).xxx / (4.0f * NdotL * NdotV);
 }

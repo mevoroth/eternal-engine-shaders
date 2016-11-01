@@ -10,7 +10,7 @@ namespace Eternal
 		using namespace Eternal::Types;
 		struct CB1ObjectConstants
 		{
-			Matrix4x4 Model;
+			Matrix4x4 ObjectModel;
 		};
 	}
 }

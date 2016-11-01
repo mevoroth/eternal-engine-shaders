@@ -17,8 +17,9 @@ PSOut PS( PSIn IN )
 	float3 DebugWorldPos = DepthDebugTexture.Sample(BilinearSampler, IN.UV.xy).xyz;
 	//PosWS.xyz = DebugWorldPos;
 
-	float3 DiffuseColor = DiffuseTexture.Sample(BilinearSampler, IN.UV.xy).xyz;
-	float3 SpecularColor = SpecularTexture.Sample(BilinearSampler, IN.UV.xy).zzz;
+	float3 DiffuseColor		= DiffuseTexture.Sample(BilinearSampler, IN.UV.xy).xyz;
+	float3 SpecularColor	= SpecularTexture.Sample(BilinearSampler, IN.UV.xy).zzz;
+	float Roughness			= RoughnessTexture.Sample(BilinearSampler, IN.UV.xy).x;
 
 	float3 LightToPixel = Lights[0].Position.xyz - PosWS.xyz;
 	float3 L = normalize(LightToPixel.xyz);
@@ -32,6 +33,9 @@ PSOut PS( PSIn IN )
 	float NdotV = max(dot(N, V), EPSILON);
 	float NdotL = saturate(dot(N, L));
 
+	//float Roughness2 = Roughness * Roughness;
+	float Roughness2 = 1.f;
+
 	float LightToPixelSquared = dot(LightToPixel, LightToPixel);
 	
 	//float Distance = distance(Lights[0].Position.xyz, DebugWorldPos);
@@ -41,8 +45,8 @@ PSOut PS( PSIn IN )
 	const float3 LightColor = Lights[0].Color.xyz;
 
 	OUT.Light.xyz = NdotL * LightAttenuation * LightColor;
-	OUT.Light.xyz *= Lights[0].Intensity * SpecularBRDF(Lights[0].Distance / 1000.0f, 1.0f, VdotH, NdotH, NdotV, NdotL);
-	//OUT.Light.xyz += DiffuseBRDF(DiffuseColor.xyz);
+	OUT.Light.xyz *= Lights[0].Intensity * SpecularBRDF(Lights[0].Distance / 1000.0f, Roughness2, VdotH, NdotH, NdotV, NdotL);
+	OUT.Light.xyz += NdotL * DiffuseBRDF(DiffuseColor.xyz);
 
 	OUT.Light.w = 1.0f;
 
