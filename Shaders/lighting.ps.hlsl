@@ -7,8 +7,11 @@ PSOut PS( PSIn IN )
 {
 	PSOut OUT = (PSOut)0;
 
+	float W = WTexture.Sample(BilinearSampler, IN.UV.xy).x;
+
 	float4 PosSS = float4(UVToClipXY(IN.UV), 0.0f, 1.0f);
-	PosSS.z = DepthTexture.Sample(BilinearSampler, IN.UV.xy).x;
+	//PosSS.z = DepthTexture.Sample(BilinearSampler, IN.UV.xy).x * 1000.0f / W;
+	PosSS.z = 1.0f - DepthTexture.Sample(BilinearSampler, IN.UV.xy).x;
 
 	float4 PosWS = mul(PosSS.xyzw, ViewProjectionInversed);
 	PosWS.xyzw /= PosWS.wwww;
@@ -49,6 +52,17 @@ PSOut PS( PSIn IN )
 	OUT.Light.xyz += NdotL * DiffuseBRDF(DiffuseColor.xyz);
 
 	OUT.Light.w = 1.0f;
+
+	// Shadow
+	float4 PosLS = mul(PosSS.xyzw, Lights[0].LightToCamera);
+	PosLS.xyzw /= PosLS.wwww;
+
+	float ShadowDepth = ShadowTexture.Sample(BilinearSampler, saturate(IN.UV.xy)).x;
+
+	OUT.Light.xyz = ShadowDepth;//(PosLS.z > ShadowDepth ? 0.0f : 1.0f);
+
+	//float DebugError = distance(PosWS.xyz, DebugWorldPos);
+	//OUT.Light.xyz = Distance / 10000.0;
 
 	return OUT;
 }

@@ -1,8 +1,8 @@
+#include "opaque.common.hlsl"
+
 #ifdef USE_DEPTH
 #include "depthonly.ps.hlsl"
 #else
-
-#include "opaque.common.hlsl"
 
 PSOut PS( PSIn IN )
 {
@@ -17,8 +17,10 @@ PSOut PS( PSIn IN )
 	OUT.Specular	= float4(SpecularTexture.Sample(OpaqueSampler, IN.UV).xyz, 1.0f);
 	OUT.Normal		= float4(NormalWS.xyz * 0.5 + 0.5, 0.0f);//float4(NormalTexture.Sample(OpaqueSampler, IN.UV).xyz /** 0.5f + 0.5f*/, 1.0f);
 	OUT.Roughness	= float4(IN.RoughnessDebug, 0.f, 0.f, 1.0f);
+	OUT.W			= IN.W;
 	OUT.WorldPos	= IN.WorldPos;
-	OUT.Depth		= IN.Pos.z;
+	//OUT.Depth		= IN.LinearDepth;
+	OUT.Depth		= 1.0f - IN.Pos.z;
 
 	return OUT;
 }

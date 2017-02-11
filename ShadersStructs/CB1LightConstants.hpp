@@ -10,10 +10,12 @@ namespace Eternal
 		using namespace Eternal::Types;
 		struct Light
 		{
+			Matrix4x4 LightToCamera;
 			Vector4 Position;
 			Vector4 Color;
 			float Distance;
 			float Intensity;
+			float _Dummy[2];
 		};
 		struct CB1LightConstants
 		{

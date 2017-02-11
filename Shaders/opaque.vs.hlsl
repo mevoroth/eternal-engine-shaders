@@ -9,6 +9,9 @@ PSIn VS( VSIn IN, uint InstanceID: SV_InstanceID )
 	OUT.Pos = mul(OUT.Pos, ObjectModel);
 	OUT.Pos = mul(OUT.Pos, ViewProjection);
 
+	OUT.LinearDepth = OUT.Pos.z;
+	OUT.W = OUT.Pos.w;
+
 	OUT.UV		= IN.UV;
 	OUT.Normal	= IN.Normal;
 

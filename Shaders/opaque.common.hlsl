@@ -15,11 +15,13 @@ struct VSIn
 
 struct PSIn
 {
-	float4 Pos : SV_Position;
-	float4 Normal : NORMAL;
-	float2 UV : TEXCOORD0;
-	float RoughnessDebug : ROUGHNESS;
-	float4 WorldPos : Debug0;
+	float4 Pos				: SV_Position;
+	float4 Normal			: NORMAL;
+	float2 UV				: TEXCOORD0;
+	float RoughnessDebug	: ROUGHNESS;
+	float LinearDepth		: LINEARDEPTH;
+	float W					: HOMOGENEOUS;
+	float4 WorldPos			: Debug0;
 };
 
 struct PSOut
@@ -29,7 +31,8 @@ struct PSOut
 	float4	Emissive	: SV_Target2;
 	float4	Normal		: SV_Target3;
 	float4	Roughness	: SV_Target4;
-	float4	WorldPos	: SV_Target5;
+	float	W			: SV_Target5;
+	float4	WorldPos	: SV_Target6;	// Only for debug
 	float	Depth		: SV_Depth;
 };
 
