@@ -57,9 +57,12 @@ PSOut PS( PSIn IN )
 	float4 PosLS = mul(PosSS.xyzw, Lights[0].LightToCamera);
 	PosLS.xyzw /= PosLS.wwww;
 
-	float ShadowDepth = ShadowTexture.Sample(BilinearSampler, saturate(IN.UV.xy)).x;
+	float ShadowDepth = ShadowTexture.Sample(BilinearSampler, saturate(PosLS.xy)).x;
 
-	OUT.Light.xyz = ShadowDepth;//(PosLS.z > ShadowDepth ? 0.0f : 1.0f);
+	OUT.Light.xyz *= (PosLS.z > ShadowDepth ? 0.0f : 1.0f);
+	//OUT.Light.xyz = ShadowDepth;
+
+	//OUT.Light.xyz = float3(PosLS.z, ShadowDepth, PosLS.z > ShadowDepth);
 
 	//float DebugError = distance(PosWS.xyz, DebugWorldPos);
 	//OUT.Light.xyz = Distance / 10000.0;

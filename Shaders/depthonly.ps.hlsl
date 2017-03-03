@@ -10,7 +10,7 @@ DepthOnlyPSOut PS( PSIn IN )
 {
 	DepthOnlyPSOut OUT;
 
-	OUT.Depth = IN.Pos.z;
+	OUT.Depth = 1.0f - IN.Pos.z;
 
 	return OUT;
 }
