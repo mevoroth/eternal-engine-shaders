@@ -1,7 +1,7 @@
 #ifndef _COMMON_HLSL_
 #define _COMMON_HLSL_
 
-cbuffer FrameConstants : register(b0)
+cbuffer FrameConstants : register(b0, space0)
 {
 	float4x4 ViewProjection;
 	float4x4 ViewProjectionInversed;

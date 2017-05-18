@@ -1,6 +1,6 @@
 #include "opaque.common.hlsl"
 
-PSIn VS( VSIn IN, uint InstanceID: SV_InstanceID )
+PSIn VS( VSIn IN, uint InstanceID : SV_InstanceID )
 {
 	PSIn OUT = (PSIn)0;
 	OUT.Pos = IN.Pos;
@@ -9,15 +9,15 @@ PSIn VS( VSIn IN, uint InstanceID: SV_InstanceID )
 	OUT.Pos = mul(OUT.Pos, ObjectModel);
 	OUT.Pos = mul(OUT.Pos, ViewProjection);
 
-	OUT.LinearDepth = OUT.Pos.z;
-	OUT.W = OUT.Pos.w;
+	OUT.Depth = OUT.Pos.z;
+	//OUT.W = OUT.Pos.w;
 
 	OUT.UV		= IN.UV;
 	OUT.Normal	= IN.Normal;
 
-	OUT.WorldPos = IN.Pos;
+	//OUT.WorldPos = IN.Pos;
 
-	OUT.RoughnessDebug = (InstanceID.x % 10) / 9.f;
+	//OUT.RoughnessDebug = (InstanceID.x % 10) / 9.f;
 
 	return OUT;
 }
