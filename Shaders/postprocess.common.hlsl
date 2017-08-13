@@ -3,8 +3,8 @@
 
 struct PSIn
 {
-    float4 Pos : SV_Position;
-    float2 UV : TEXCOORD0;
+	float4 Pos : SV_Position;
+	float2 UV : TEXCOORD0;
 };
 
 #endif

@@ -72,6 +72,9 @@
     <FxCompile Include="Shaders\defaultpostprocess.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\debugrender.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersStructs\CB0FrameConstants.hpp">
