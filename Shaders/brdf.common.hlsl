@@ -11,7 +11,7 @@ float3 Fresnel(float VdotH, float3 Spec)
 {
 	return Spec + (1.0f - Spec) * pow(1 - VdotH, 5.0f);
 }
-#elif defined(BRDF_FRESNEL_COOK_TORRANCE)
+//#elif defined(BRDF_FRESNEL_COOK_TORRANCE)
 #else
 float3 Fresnel(float3 VdotH, float3 Spec)
 {
