@@ -268,6 +268,6 @@ float4 PS(PSIn IN) : SV_Target0
 	float3 OutColor = (CurrentDistance < RayMarchThreshold) ? EvaluateSurfaceLighting(RayPosition) : float3(0, 0, 0);
 	OutColor = OutColor * Transmittance + Scattering;
 	return float4(OutColor, 1.0f);
-	//return float4(ElapsedTime * 0.01f, 0, 0, 1);
+	//return float4(ElapsedTime * 0.05f, 0, 0, 1);
 	//return float4(SmokeVolumeUp, 1.0f);
 }
