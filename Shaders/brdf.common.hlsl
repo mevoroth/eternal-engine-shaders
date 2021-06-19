@@ -23,12 +23,12 @@ float3 Fresnel(float3 VdotH, float3 Spec)
 #if defined(BRDF_GEOMETRY_GGX)
 float GeometryComponent(float Roughness2, float NdotX)
 {
-    //return rcp(Roughness2 + NdotX * (1.0f - Roughness2));
-    return 2.0f * NdotX / (NdotX + sqrt(Roughness2 + (1.0f - Roughness2) * NdotX * NdotX));
+	//return rcp(Roughness2 + NdotX * (1.0f - Roughness2));
+	return 2.0f * NdotX / (NdotX + sqrt(Roughness2 + (1.0f - Roughness2) * NdotX * NdotX));
 }
 float Geometry(float Roughness2, float NdotV, float NdotL)
 {
-    return GeometryComponent(Roughness2, NdotV) * GeometryComponent(Roughness2, NdotL);
+	return GeometryComponent(Roughness2, NdotV) * GeometryComponent(Roughness2, NdotL);
 }
 #else
 float Geometry(float Roughness, float NdotV, float NdotL)
@@ -41,7 +41,7 @@ float Geometry(float Roughness, float NdotV, float NdotL)
 #if defined(BRDF_DISTRIBUTION_GGX)
 float Distribution(float Roughness2, float NdotH)
 {
-    float a2 = Roughness2 * Roughness2;
+	float a2 = Roughness2 * Roughness2;
 	float NdotH2 = NdotH * NdotH;
 	float d = NdotH2 * (a2 - 1.0f) + 1.0f;
 	return a2 / (d * d);
