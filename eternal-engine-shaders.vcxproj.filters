@@ -78,6 +78,9 @@
     <FxCompile Include="Shaders\raymarching_00.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\sampletexture.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersStructs\CB0FrameConstants.hpp">
