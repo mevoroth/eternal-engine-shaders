@@ -3,7 +3,7 @@
 
 #include "postprocess.common.hlsl"
 
-static const float2 Vertices[] =
+static const float2 VerticesSvPositions[] =
 {
 	float2(-1.0f,	-1.0f),
 	float2( 1.0f,	-1.0f),
@@ -11,7 +11,6 @@ static const float2 Vertices[] =
 	float2(-1.0f,	 1.0f)
 };
 
-#ifdef POST_PROCESS_UV_INVERT
 static const float2 UVs[] =
 {
 	float2(0.0f, 1.0f),
@@ -19,20 +18,11 @@ static const float2 UVs[] =
 	float2(1.0f, 0.0f),
 	float2(0.0f, 0.0f)
 };
-#else
-static const float2 UVs[] =
-{
-	float2(0.0f, 0.0f),
-	float2(1.0f, 0.0f),
-	float2(1.0f, 1.0f),
-	float2(0.0f, 1.0f)
-};
-#endif
 
 static const uint Indices[] =
 {
-	0, 2, 1,
-	0, 3, 2
+	0, 1, 2,
+	0, 2, 3
 };
 
 PSIn VS( uint vid : SV_VertexID )
@@ -41,8 +31,8 @@ PSIn VS( uint vid : SV_VertexID )
 
 	PSIn OUT = (PSIn) 0;
 
-	OUT.Pos = float4(Vertices[Index], 0.0f, 1.0f);
-	OUT.UV = UVs[Index];
+	OUT.SvPosition	= float4(VerticesSvPositions[Index], 0.0f, 1.0f);
+	OUT.UV			= UVs[Index];
 
 	return OUT;
 }
