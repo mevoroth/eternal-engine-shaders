@@ -7,6 +7,9 @@
     <Filter Include="ShadersStructs">
       <UniqueIdentifier>{1c9f25af-869e-4775-8132-056f8282a291}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Imgui">
+      <UniqueIdentifier>{b0e90ca3-3568-40f1-89af-5fddbc0ff5ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\common.hlsl">
@@ -80,6 +83,24 @@
     </FxCompile>
     <FxCompile Include="Shaders\sampletexture.ps.hlsl">
       <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\platform.common.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\dx12.common.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\vulkan.common.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Imgui\imgui.vs.hlsl">
+      <Filter>Shaders\Imgui</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Imgui\imgui.ps.hlsl">
+      <Filter>Shaders\Imgui</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Imgui\imgui.common.hlsl">
+      <Filter>Shaders\Imgui</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
