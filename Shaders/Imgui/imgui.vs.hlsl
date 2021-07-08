@@ -1,4 +1,4 @@
-#include "imgui.common.hlsl"
+#include "imgui/imgui.common.hlsl"
 
 struct ProjectionConstants
 {
@@ -6,7 +6,7 @@ struct ProjectionConstants
 };
 REGISTER_B(ConstantBuffer<ProjectionConstants> ProjectionConstantBuffer,	0, 0);
 
-PSIn main( VSIn IN )
+PSIn VS( VSIn IN )
 {
 	PSIn OUT = (PSIn)0;
 	OUT.SVPosition	= mul(ProjectionConstantBuffer.ProjectionMatrix, float4(IN.Position.xy, 0.0f, 1.0f));
