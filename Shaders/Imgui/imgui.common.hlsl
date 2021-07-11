@@ -5,7 +5,7 @@
 
 struct VSIn
 {
-	float2 Position		: POSITION;
+	float2 Position		: POSITION0;
 	float2 UV			: TEXCOORD0;
 	float4 Color		: COLOR0;
 };
