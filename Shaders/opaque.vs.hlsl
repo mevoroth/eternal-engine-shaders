@@ -1,23 +1,20 @@
 #include "opaque.common.hlsl"
 
-PSIn VS( VSIn IN, uint InstanceID : SV_InstanceID )
+struct PerDrawConstants
+{
+	float4x4 SubMeshToLocal;
+};
+REGISTER_B(ConstantBuffer<PerDrawConstants> PerDrawConstantBuffer, 0, 0);
+REGISTER_B_PER_VIEW_CONSTANT_BUFFER(1, 0);
+
+PSIn VS( VSIn IN )
 {
 	PSIn OUT = (PSIn)0;
-	OUT.Pos = IN.Pos;
 
-	OUT.Pos = mul(OUT.Pos, InstanceStructuredBufferData[InstanceID].Model);
-	OUT.Pos = mul(OUT.Pos, ObjectModel);
-	OUT.Pos = mul(OUT.Pos, ViewProjection);
-
-	OUT.Depth = OUT.Pos.z;
-	//OUT.W = OUT.Pos.w;
-
-	OUT.UV		= IN.UV;
-	OUT.Normal	= IN.Normal;
-
-	//OUT.WorldPos = IN.Pos;
-
-	//OUT.RoughnessDebug = (InstanceID.x % 10) / 9.f;
+	OUT.SVPosition	= mul(PerDrawConstantBuffer.SubMeshToLocal, IN.Position);
+	OUT.SVPosition	= mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
+	OUT.Normal		= IN.Normal;
+	OUT.UV			= IN.UV;
 
 	return OUT;
 }

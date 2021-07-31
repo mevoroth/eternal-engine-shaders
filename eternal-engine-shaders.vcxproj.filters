@@ -24,13 +24,10 @@
     <FxCompile Include="Shaders\compositing.vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\lighting.common.hlsl">
+    <FxCompile Include="Shaders\directlighting.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\lighting.ps.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\lighting.vs.hlsl">
+    <FxCompile Include="Shaders\directlighting.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\opaque.common.hlsl">
@@ -42,10 +39,10 @@
     <FxCompile Include="Shaders\opaque.vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\postprocess.common.hlsl">
+    <FxCompile Include="Shaders\screen.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\postprocess.vs.hlsl">
+    <FxCompile Include="Shaders\screen.vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\sampler.common.hlsl">
