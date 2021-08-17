@@ -1,9 +1,5 @@
 #include "imgui/imgui.common.hlsl"
 
-struct ProjectionConstants
-{
-	float4x4 ProjectionMatrix;
-};
 REGISTER_B(ConstantBuffer<ProjectionConstants> ProjectionConstantBuffer,	0, 0);
 
 PSIn VS( VSIn IN )
