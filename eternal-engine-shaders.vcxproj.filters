@@ -4,11 +4,14 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{26e12ac5-e752-4732-8bee-02942641c717}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShadersStructs">
-      <UniqueIdentifier>{1c9f25af-869e-4775-8132-056f8282a291}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders\Imgui">
       <UniqueIdentifier>{b0e90ca3-3568-40f1-89af-5fddbc0ff5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersReflection">
+      <UniqueIdentifier>{9c35891d-80d9-4d51-a114-e29060a5f236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersReflection\Imgui">
+      <UniqueIdentifier>{d9c18df2-570d-406e-a7d7-ccbc2d47a5d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +69,6 @@
     <FxCompile Include="Shaders\constants.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\depthonly.ps.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Shaders\defaultpostprocess.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
@@ -99,19 +99,28 @@
     <FxCompile Include="Shaders\Imgui\imgui.common.hlsl">
       <Filter>Shaders\Imgui</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\perview.common.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\tonemapping.cs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ShadersStructs\CB0FrameConstants.hpp">
-      <Filter>ShadersStructs</Filter>
+    <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
+      <Filter>ShadersReflection</Filter>
     </ClInclude>
-    <ClInclude Include="ShadersStructs\CB1ObjectConstants.hpp">
-      <Filter>ShadersStructs</Filter>
+    <ClInclude Include="ShadersReflection\HLSLReflection.hpp">
+      <Filter>ShadersReflection</Filter>
     </ClInclude>
-    <ClInclude Include="ShadersStructs\CB1LightConstants.hpp">
-      <Filter>ShadersStructs</Filter>
+    <ClInclude Include="ShadersReflection\HLSLPerDrawConstants.hpp">
+      <Filter>ShadersReflection</Filter>
     </ClInclude>
-    <ClInclude Include="ShadersStructs\SB5InstanceStructuredBuffer.hpp">
-      <Filter>ShadersStructs</Filter>
+    <ClInclude Include="ShadersReflection\HLSLDirectLighting.hpp">
+      <Filter>ShadersReflection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersReflection\Imgui\HLSLImgui.hpp">
+      <Filter>ShadersReflection\Imgui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
