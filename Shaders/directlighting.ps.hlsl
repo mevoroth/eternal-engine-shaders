@@ -1,82 +1,70 @@
 #include "directlighting.common.hlsl"
-//#include "postprocess.common.hlsl"
-//#include "functions.common.hlsl"
-//#include "constants.common.hlsl"
+#include "brdf.common.hlsl"
 
-REGISTER_T(Texture2D<float>		DepthTexture,				0, 0);
-REGISTER_T(Texture2D<float4>	AlbedoTexture,				1, 0);
-REGISTER_T(Texture2D<float4>	NormalsTexture,				2, 0);
-REGISTER_T(Texture2D<float4>	RoughnessMetallicSpecular,	3, 0);
-REGISTER_S(SamplerState			PointSampler,				0, 0);
+REGISTER_B(ConstantBuffer<DirectLightingConstants>	DirectLightingBuffer,		0, 0);
+REGISTER_B_PER_VIEW_CONSTANT_BUFFER(											1, 0);
+REGISTER_T(Texture2D<float>							DepthTexture,				0, 0);
+REGISTER_T(Texture2D<float4>						AlbedoTexture,				1, 0);
+REGISTER_T(Texture2D<float4>						NormalsTexture,				2, 0);
+REGISTER_T(Texture2D<float4>						RoughnessMetallicSpecular,	3, 0);
+REGISTER_T(StructuredBuffer<LightInformation>		LightsBuffer,				4, 0);
+REGISTER_S(SamplerState								PointSampler,				0, 0);
+
+BRDFInput InitializeBRDFInput( PSIn IN )
+{
+	BRDFInput Out = (BRDFInput)0;
+
+	float DepthSample						= DepthTexture.Sample(PointSampler, IN.UV).x;
+	float3 AlbedoSample						= AlbedoTexture.Sample(PointSampler, IN.UV).rgb;
+	float3 NormalsSample					= NormalsTexture.Sample(PointSampler, IN.UV).xyz;
+	float3 RoughnessMetallicSpecularSample	= RoughnessMetallicSpecular.Sample(PointSampler, IN.UV).xyz;
+
+	float3 WorldPosition		= UVDepthToWorldPosition(IN.UV, DepthSample, PerViewConstantBuffer.WorldToClip);
+
+	Out.Albedo					= AlbedoTexture.Sample(PointSampler, IN.UV).rgb;
+	Out.Specular				= ComputeF0(RoughnessMetallicSpecularSample.z, Out.Albedo, RoughnessMetallicSpecularSample.y);
+	Out.Roughness				= RoughnessMetallicSpecularSample.x;
+	Out.LinearRoughness			= Out.Roughness * Out.Roughness;
+	Out.LinearRoughnessSquared	= Out.LinearRoughness * Out.LinearRoughness;
+
+	Out.V						= normalize(PerViewConstantBuffer.ViewPosition.xyz - WorldPosition);
+	Out.N						= NormalsSample;
+	
+	Out.NdotV					= dot(Out.N, Out.V);
+
+	//float3 Specular;
+
+	return Out;
+}
+
+void InitializeBRDFInput_DirectionalLight( inout BRDFInput InOutBRDFInput, LightInformation InLight )
+{
+	InOutBRDFInput.L		= -InLight.Direction;
+	InOutBRDFInput.H		= normalize(InOutBRDFInput.L + InOutBRDFInput.V);
+
+	InOutBRDFInput.NdotL	= saturate(dot(InOutBRDFInput.N, InOutBRDFInput.L));
+	InOutBRDFInput.LdotH	= saturate(dot(InOutBRDFInput.L, InOutBRDFInput.H));
+	InOutBRDFInput.NdotH	= saturate(dot(InOutBRDFInput.N, InOutBRDFInput.H));
+	InOutBRDFInput.VdotH	= saturate(dot(InOutBRDFInput.V, InOutBRDFInput.H));
+}
 
 PSOut PS( PSIn IN )
 {
 	PSOut OUT = (PSOut)0;
 
-	OUT.Luminance = NormalsTexture.Sample(
-		PointSampler,
-		IN.UV
-	);
+	BRDFInput Input = InitializeBRDFInput(IN);
 
-	//float W = WTexture.Sample(BilinearSampler, IN.UV.xy).x;
+	const uint LightsCount = DirectLightingBuffer.LightsCount;
+	
+	LuminanceOuput Lighting = (LuminanceOuput)0;
+	
+	for (uint LightIndex = 0; LightIndex < LightsCount; ++LightIndex)
+	{
+		InitializeBRDFInput_DirectionalLight(Input, LightsBuffer[LightIndex]);
 
-	//float4 PosSS = float4(UVToClipXY(IN.UV), 0.0f, 1.0f);
-	////PosSS.z = DepthTexture.Sample(BilinearSampler, IN.UV.xy).x * 1000.0f / W;
-	//PosSS.z = 1.0f - DepthTexture.Sample(BilinearSampler, IN.UV.xy).x;
-
-	//float4 PosWS = mul(PosSS.xyzw, ViewProjectionInversed);
-	//PosWS.xyzw /= PosWS.wwww;
-
-	////float DebugDepth = DepthDebugTexture.Sample(BilinearSampler, IN.UV.xy).z;
-	//float3 DebugWorldPos = DepthDebugTexture.Sample(BilinearSampler, IN.UV.xy).xyz;
-	////PosWS.xyz = DebugWorldPos;
-
-	//float3 DiffuseColor		= DiffuseTexture.Sample(BilinearSampler, IN.UV.xy).xyz;
-	//float3 SpecularColor	= SpecularTexture.Sample(BilinearSampler, IN.UV.xy).zzz;
-	//float Roughness			= RoughnessTexture.Sample(BilinearSampler, IN.UV.xy).x;
-
-	//float3 LightToPixel = Lights[0].Position.xyz - PosWS.xyz;
-	//float3 L = normalize(LightToPixel.xyz);
-	//float3 N = NormalTexture.Sample(BilinearSampler, IN.UV.xy).xyz * 2.0f - 1.0f;
-	////N = normalize(N);
-	//float3 V = normalize(CameraPosition.xyz - PosWS.xyz);
-	//float3 H = normalize(V + L);
-
-	//float VdotH = saturate(dot(V, H));
-	//float NdotH = saturate(dot(N, H));
-	//float NdotV = max(dot(N, V), EPSILON);
-	//float NdotL = saturate(dot(N, L));
-
-	////float Roughness2 = Roughness * Roughness;
-	//float Roughness2 = 1.f;
-
-	//float LightToPixelSquared = dot(LightToPixel, LightToPixel);
-	//
-	////float Distance = distance(Lights[0].Position.xyz, DebugWorldPos);
-	//float Distance = sqrt(LightToPixelSquared);
-
-	//const float LightAttenuation = Lights[0].Distance / (Distance + EPSILON);
-	//const float3 LightColor = Lights[0].Color.xyz;
-
-	//OUT.Light.xyz = NdotL * LightAttenuation * LightColor;
-	//OUT.Light.xyz *= Lights[0].Intensity * SpecularBRDF(Lights[0].Distance / 1000.0f, Roughness2, VdotH, NdotH, NdotV, NdotL);
-	//OUT.Light.xyz += NdotL * DiffuseBRDF(DiffuseColor.xyz);
-
-	//OUT.Light.w = 1.0f;
-
-	//// Shadow
-	//float4 PosLS = mul(PosSS.xyzw, Lights[0].LightToCamera);
-	//PosLS.xyzw /= PosLS.wwww;
-
-	//float ShadowDepth = ShadowTexture.Sample(BilinearSampler, saturate(PosLS.xy)).x;
-
-	//OUT.Light.xyz *= (PosLS.z > ShadowDepth ? 0.0f : 1.0f);
-	////OUT.Light.xyz = ShadowDepth;
-
-	////OUT.Light.xyz = float3(PosLS.z, ShadowDepth, PosLS.z > ShadowDepth);
-
-	////float DebugError = distance(PosWS.xyz, DebugWorldPos);
-	////OUT.Light.xyz = Distance / 10000.0;
+		LuminanceOuput BRDF = EvaluateDirectLighting(Input);
+		OUT.Luminance.rgb += BRDF.Luminance * LightsBuffer[LightIndex].Radiance * Input.NdotL;
+	}
 
 	return OUT;
 }
