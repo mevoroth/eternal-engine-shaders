@@ -3,6 +3,7 @@
 
 #include "platform.common.hlsl"
 #include "common.hlsl"
+#include "perview.common.hlsl"
 
 struct VSIn
 {
@@ -15,9 +16,11 @@ struct VSIn
 
 struct PSIn
 {
-	float4 SVPosition		: SV_Position;
-	float3 Normal			: NORMAL;
-	float2 UV				: TEXCOORD0;
+	float4 SVPosition	: SV_Position;
+	float3 Normal		: NORMAL;
+	float3 Tangent		: TANGENT;
+	float3 Binormal		: BINORMAL;
+	float2 UV			: TEXCOORD0;
 };
 
 struct PSOut
