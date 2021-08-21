@@ -27,10 +27,10 @@ BRDFInput InitializeBRDFInput( PSIn IN )
 	Out.LinearRoughness			= Out.Roughness * Out.Roughness;
 	Out.LinearRoughnessSquared	= Out.LinearRoughness * Out.LinearRoughness;
 
-	Out.V						= normalize(PerViewConstantBuffer.ViewPosition.xyz - WorldPosition);
-	Out.N						= NormalsSample;
+	Out.V						= SafeNormalize(PerViewConstantBuffer.ViewPosition.xyz - WorldPosition);
+	Out.N						= SafeNormalize(NormalsSample);
 	
-	Out.NdotV					= dot(Out.N, Out.V);
+	Out.NdotV					= max(dot(Out.N, Out.V), 0.0f);
 
 	//float3 Specular;
 
@@ -42,10 +42,10 @@ void InitializeBRDFInput_DirectionalLight( inout BRDFInput InOutBRDFInput, Light
 	InOutBRDFInput.L		= -InLight.Direction;
 	InOutBRDFInput.H		= normalize(InOutBRDFInput.L + InOutBRDFInput.V);
 
-	InOutBRDFInput.NdotL	= saturate(dot(InOutBRDFInput.N, InOutBRDFInput.L));
-	InOutBRDFInput.LdotH	= saturate(dot(InOutBRDFInput.L, InOutBRDFInput.H));
-	InOutBRDFInput.NdotH	= saturate(dot(InOutBRDFInput.N, InOutBRDFInput.H));
-	InOutBRDFInput.VdotH	= saturate(dot(InOutBRDFInput.V, InOutBRDFInput.H));
+	InOutBRDFInput.NdotL	= max(dot(InOutBRDFInput.N, InOutBRDFInput.L), 0.0f);
+	InOutBRDFInput.LdotH	= max(dot(InOutBRDFInput.L, InOutBRDFInput.H), 0.0f);
+	InOutBRDFInput.NdotH	= max(dot(InOutBRDFInput.N, InOutBRDFInput.H), 0.0f);
+	InOutBRDFInput.VdotH	= max(dot(InOutBRDFInput.V, InOutBRDFInput.H), 0.0f);
 }
 
 PSOut PS( PSIn IN )
