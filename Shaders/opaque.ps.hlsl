@@ -1,4 +1,4 @@
-#include "opaque.common.hlsl"
+#include "object.common.hlsl"
 
 REGISTER_T(Texture2D<float4>						AlbedoTexture,				0, 0);
 REGISTER_T(Texture2D<float4>						NormalsTexture,				1, 0);
