@@ -33,13 +33,13 @@
     <FxCompile Include="Shaders\directlighting.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\opaque.common.hlsl">
+    <FxCompile Include="Shaders\object.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\opaque.ps.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\opaque.vs.hlsl">
+    <FxCompile Include="Shaders\object.vs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\screen.common.hlsl">
