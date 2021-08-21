@@ -18,4 +18,9 @@ float3 UVDepthToWorldPosition(float2 UV, float Depth, float4x4 ClipToWorld)
 	return WorldPosition.xyz / WorldPosition.w;
 }
 
+float3 SafeNormalize(float3 Vector)
+{
+	return Vector * rsqrt(max(dot(Vector, Vector), EPSILON));
+}
+
 #endif
