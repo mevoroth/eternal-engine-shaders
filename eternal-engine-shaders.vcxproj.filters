@@ -13,6 +13,9 @@
     <Filter Include="ShadersReflection\Imgui">
       <UniqueIdentifier>{d9c18df2-570d-406e-a7d7-ccbc2d47a5d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\SignedDistanceField">
+      <UniqueIdentifier>{74bfaf68-0af5-4ca8-8b33-68f613f23aa7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\common.hlsl">
@@ -106,6 +109,12 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\volumetricclouds.cs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\SignedDistanceField\sdfclassify.cs.hlsl">
+      <Filter>Shaders\SignedDistanceField</Filter>
+    </FxCompile>
+    <FxCompile Include="object.ms.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
