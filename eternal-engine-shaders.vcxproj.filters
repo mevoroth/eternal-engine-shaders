@@ -105,6 +105,9 @@
     <FxCompile Include="Shaders\tonemapping.cs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\volumetricclouds.cs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
