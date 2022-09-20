@@ -9,6 +9,7 @@ HLSL_BEGIN_STRUCT(PerViewConstants)
 	float4x4 ViewToClip;
 	float4x4 ClipToView;
 	float4 ViewPosition;
+	float4 ViewForward;
 	float4 ScreenSizeAndInverseSize;
 HLSL_END_STRUCT(PerViewConstants)
 
