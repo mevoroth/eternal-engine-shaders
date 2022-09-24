@@ -19,7 +19,7 @@ BRDFInput InitializeBRDFInput( PSIn IN )
 	float3 NormalsSample					= NormalsTexture.Sample(PointSampler, IN.UV).xyz;
 	float3 RoughnessMetallicSpecularSample	= RoughnessMetallicSpecular.Sample(PointSampler, IN.UV).xyz;
 
-	float3 WorldPosition		= UVDepthToWorldPosition(IN.UV, DepthSample, PerViewConstantBuffer.WorldToClip);
+	float3 WorldPosition		= UVDepthToWorldPosition(IN.UV, DepthSample, PerViewConstantBuffer.ClipToWorld);
 
 	Out.Albedo					= AlbedoTexture.Sample(PointSampler, IN.UV).rgb;
 	Out.Specular				= ComputeF0(RoughnessMetallicSpecularSample.z, Out.Albedo, RoughnessMetallicSpecularSample.y);
