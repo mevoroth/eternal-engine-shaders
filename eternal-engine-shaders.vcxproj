@@ -287,6 +287,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shaders\vulkan.common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -298,6 +299,7 @@
     <ClInclude Include="ShadersReflection\HLSLReflection.hpp" />
     <ClInclude Include="ShadersReflection\HLSLPerDrawConstants.hpp" />
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp" />
+    <ClInclude Include="ShadersReflection\HLSLVolumetricClouds.hpp" />
     <ClInclude Include="ShadersReflection\Imgui\HLSLImgui.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
