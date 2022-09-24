@@ -11,6 +11,10 @@ HLSL_BEGIN_STRUCT(PerViewConstants)
 	float4 ViewPosition;
 	float4 ViewForward;
 	float4 ScreenSizeAndInverseSize;
+	float RenderNearPlane;
+	float RenderFarPlane;
+	float _Pad0;
+	float _Pad1;
 HLSL_END_STRUCT(PerViewConstants)
 
 #endif
