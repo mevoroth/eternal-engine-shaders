@@ -6,21 +6,44 @@
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(													0, 0);
 REGISTER_B(ConstantBuffer<VolumetricCloudsConstants>	VolumetricCloudsConstantBuffer,	1, 0);
 REGISTER_T(Texture2D<float>		DepthTexture,											0, 0);
-REGISTER_U(RWTexture2D<float4>	OutColor,												0, 0);
-REGISTER_S(SamplerState			PointSampler,											0, 0);
+REGISTER_U(RWTexture2D<float>	OutColor,												0, 0);
 
 struct SphereDescription
 {
 	float3 SphereCenter;
-	float SphereRadiusSquared
+	float SphereRadiusMetersSquared;
 };
 
-SphereDescription InitializeSphereDescription(float SphereRadiusSquared, float3 SphereCenter = (float3)0.0f)
+SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, float3 SphereCenter = (float3)0.0f)
 {
-	SphereDescription Description	= (SphereDescription)0;
-	Description.SphereCenter		= SphereCenter;
-	Description.SphereRadiusSquared	= SphereRadiusSquared;
+	SphereDescription Description			= (SphereDescription)0;
+	Description.SphereCenter				= SphereCenter;
+	Description.SphereRadiusMetersSquared	= SphereRadiusMetersSquared;
 	return Description;
+}
+
+struct ParticipatingMediaDescription
+{
+	float3 Scattering;
+	float3 Extinction;
+};
+
+ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
+{
+	ParticipatingMediaDescription ParticipatingMedia = (ParticipatingMediaDescription)0;
+
+	float3 SphereCenter = float3(1000, 5000, 0);
+	float SphereSize = 4500;
+
+	float3 PositionToSphereCenter = PositionWS - SphereCenter;
+	
+	if (dot(PositionToSphereCenter, PositionToSphereCenter) < SphereSize * SphereSize)
+	{
+		ParticipatingMedia.Scattering = float3(0.7, 0.7, 0.9);
+		ParticipatingMedia.Extinction = float3(0.75, 0.25, 0);
+	}
+
+	return ParticipatingMedia;
 }
 
 float HenyeyGreensteinPhase(float G, float CosTheta)
@@ -33,9 +56,9 @@ bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescript
 {
 	float3 LocalPosition = RayOrigin - Sphere.SphereCenter.xyz;
 	float LocalPositionSquared = dot(LocalPosition, LocalPosition);
-	float2 QuadraticCoefficient = float3(
+	float2 QuadraticCoefficient = float2(
 		2.0f * dot(RayDirection, RayDirection),
-		LocalPositionSquared - Sphere.SphereRadiusSquared
+		LocalPositionSquared - Sphere.SphereRadiusMetersSquared
 	);
 	float Discriminant = QuadraticCoefficient.x * QuadraticCoefficient.x - 4 * QuadraticCoefficient.y;
 	float SqrtDiscriminant = sqrt(Discriminant);
@@ -51,18 +74,19 @@ void CS( uint3 DTid : SV_DispatchThreadID )
 	if (any(DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
 		return;
 	
-	const float3 RayOrigin = PerViewConstantBuffer.ViewPosition.xyz;
-	const float3 RayDirection = PerViewConstantBuffer.ViewFormard.xyz;
+	const float2 ScreenUV		= DTid.xy * PerViewConstantBuffer.ScreenSizeAndInverseSize.zw;
+	const float3 RayOrigin		= PerViewConstantBuffer.ViewPosition.xyz;
+	const float3 RayDirection	= normalize(UVDepthToWorldPosition(ScreenUV, PerViewConstantBuffer.RenderFarPlane, PerViewConstantBuffer.ClipToWorld) - RayOrigin);
 
-	SphereDescription TopClouds		= InitializeSphereDescription(VolumetricCloudsConstantBuffer.TopLayerRadiusSquared);
-	SphereDescription BottomClouds	= InitializeSphereDescription(VolumetricCloudsConstantBuffer.BottomLayerRadiusSquared);
+	const SphereDescription TopClouds		= InitializeSphereDescription(VolumetricCloudsConstantBuffer.TopLayerRadiusMetersSquared);
+	const SphereDescription BottomClouds	= InitializeSphereDescription(VolumetricCloudsConstantBuffer.BottomLayerRadiusMetersSquared);
 
 	float2 TopCloudsSolutions		= (float2)0.0f;
 	float2 BottomCloudsSolutions	= (float2)0.0f;
 	float2 CloudsMarchingMinMax		= (float2)0.0f;
-
-	bool IntersectTop		= RaySphereIntersection(RayOrigin, RayDirection, TopClouds,		TopCloudsSolutions);
-	bool IntersectBottom	= RaySphereIntersection(RayOrigin, RayDirection, BottomClouds,	BottomCloudsSolutions);
+	
+	const bool IntersectTop		= RaySphereIntersection(RayOrigin, RayDirection, TopClouds,		TopCloudsSolutions);
+	const bool IntersectBottom	= RaySphereIntersection(RayOrigin, RayDirection, BottomClouds,	BottomCloudsSolutions);
 
 	if (!IntersectTop)
 		return;
@@ -70,17 +94,60 @@ void CS( uint3 DTid : SV_DispatchThreadID )
 	if (IntersectBottom)
 	{
 		CloudsMarchingMinMax = float2(
-			all(TopCloudsSolutions > 0.0f) || all(BottomCloudsSolutions > 0.0f) ? min(TopCloudsSolutions.x, TopCloudsSolutions.y) : max(TopCloudsSolutions.x, TopCloudsSolutions.y),
-			all(BottomCloudsSolutions > 0.0f) ? min(BottomCloudsSolutions.x, BottomCloudsSolutions.y) : max(BottomCloudsSolutions.x, BottomCloudsSolutions.y)
+			all(BottomCloudsSolutions > 0.0f) ? min(BottomCloudsSolutions.x, BottomCloudsSolutions.y) : max(BottomCloudsSolutions.x, BottomCloudsSolutions.y),
+			all(TopCloudsSolutions > 0.0f) || all(BottomCloudsSolutions > 0.0f) ? min(TopCloudsSolutions.x, TopCloudsSolutions.y) : max(TopCloudsSolutions.x, TopCloudsSolutions.y)
 		);
-		CloudsMarchingMinMax.x = max(0.0f, CloudsMarchingMinMax.x);
+		CloudsMarchingMinMax.y = max(0.0f, CloudsMarchingMinMax.y);
 	}
 	else
 	{
 		CloudsMarchingMinMax = TopCloudsSolutions;
 	}
 
-	float Depth = DepthTexture[DTid.xy].x;
+	const float Depth				= DepthTexture[DTid.xy].x;
+	const float3 GeometryPosition	= UVDepthToWorldPosition(ScreenUV, Depth, PerViewConstantBuffer.ClipToWorld);
+	const float GeometryIntersect	= dot(GeometryPosition, RayDirection);
 
-	OutColor[DTid.xy] = float4(1, 0, 0, 1);
+	if (GeometryIntersect <= CloudsMarchingMinMax.x)
+		return;
+
+	CloudsMarchingMinMax = min(CloudsMarchingMinMax, GeometryIntersect.xx);
+	float CloudsMarchingRangeMeters	= CloudsMarchingMinMax.y - CloudsMarchingMinMax.x;
+	float CloudsMarchingDeltaMeters	= CloudsMarchingRangeMeters * VolumetricCloudsConstantBuffer.MaxStepsRcp;
+
+	const float3 LightDirection = float3(0, -1, 0);
+
+	float3 Luminance		= (float3)0.0f;
+	float3 Transmittance	= (float3)1.0f;
+	float LightCosTheta		= dot(LightDirection, RayDirection);
+	float Phase[VOLUMETRIC_PHASE_COUNT];
+	for (int PhaseIndex = 0; PhaseIndex < VOLUMETRIC_PHASE_COUNT; ++PhaseIndex)
+		Phase[PhaseIndex] = HenyeyGreensteinPhase(VolumetricCloudsConstantBuffer.PhaseG[PhaseIndex].Value, LightCosTheta);
+	float PhaseFinal = Phase[0] + VolumetricCloudsConstantBuffer.PhaseBlend * (Phase[1] - Phase[0]);
+
+	float DistanceMeters = 0.0f;
+	float3 CloudsMarchingPosition = RayOrigin + RayDirection * CloudsMarchingMinMax.x;
+
+	for (int Step = 0; Step < VolumetricCloudsConstantBuffer.MaxSteps; ++Step)
+	{
+		ParticipatingMediaDescription ParticipatingMedia = SampleParticipatingMedia(CloudsMarchingPosition);
+
+		float3 LightLuminance = 2.5;
+		float3 ScatteredLuminance = LightLuminance * ParticipatingMedia.Scattering * PhaseFinal;
+
+		const float3 SafeExtinctionThreshold = 0.000001f;
+		const float3 SafeExtinction = max(SafeExtinctionThreshold, ParticipatingMedia.Extinction);
+		const float3 SafeDeltaTransmittance = exp(-SafeExtinction * CloudsMarchingDeltaMeters);
+		float3 DeltaLuminance = (ScatteredLuminance - ScatteredLuminance * SafeDeltaTransmittance) / SafeExtinction;
+		
+		Luminance		+= Transmittance * DeltaLuminance;
+		Transmittance	*= SafeDeltaTransmittance;
+
+		CloudsMarchingPosition += RayDirection * CloudsMarchingDeltaMeters;
+		DistanceMeters += CloudsMarchingDeltaMeters;
+	}
+
+	float3 SceneLuminance = OutColor[DTid.xy];
+	SceneLuminance = SceneLuminance * (1.0 - Transmittance) + Luminance;
+	OutColor[DTid.xy] = SceneLuminance;
 }

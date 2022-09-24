@@ -134,5 +134,8 @@
     <ClInclude Include="ShadersReflection\Imgui\HLSLImgui.hpp">
       <Filter>ShadersReflection\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="ShadersReflection\HLSLVolumetricClouds.hpp">
+      <Filter>ShadersReflection</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
