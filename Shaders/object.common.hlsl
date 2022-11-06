@@ -64,8 +64,6 @@ struct PSOut
 	float4 RoughnessMetallicSpecular	: SV_Target3;
 };
 
-struct 
-
 PSIn ComputePSIn(VSIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer)
 {
 	PSIn OUT = (PSIn)0;
