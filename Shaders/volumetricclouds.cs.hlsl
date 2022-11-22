@@ -6,7 +6,6 @@
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(													0, 0);
 REGISTER_B(ConstantBuffer<VolumetricCloudsConstants>	VolumetricCloudsConstantBuffer,	1, 0);
 REGISTER_T(Texture2D<float>		DepthTexture,											0, 0);
-REGISTER_U(RWTexture2D<float>	OutColor,												0, 0);
 RW_RESOURCE(RWTexture2D, float3, SPIRV_FORMAT_R11FG11FB10F, OutColor,					0, 0);
 
 struct SphereDescription
@@ -50,6 +49,7 @@ ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 float HenyeyGreensteinPhase(float G, float CosTheta)
 {
 	float GSquared = G * G;
+	return (1.0f - GSquared) / pow(abs(1.0f + GSquared - 2 * G * CosTheta), 3.0f / 2.0f);
 }
 
 bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescription Sphere, inout float2 Solutions)
@@ -71,7 +71,7 @@ bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescript
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
 void CS( uint3 DTid : SV_DispatchThreadID )
 {
-	if (any(DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
+	if (any((int2)DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
 		return;
 	
 	const float2 ScreenUV		= DTid.xy * PerViewConstantBuffer.ScreenSizeAndInverseSize.zw;
@@ -147,7 +147,5 @@ void CS( uint3 DTid : SV_DispatchThreadID )
 		DistanceMeters += CloudsMarchingDeltaMeters;
 	}
 
-	float3 SceneLuminance = OutColor[DTid.xy];
-	SceneLuminance = SceneLuminance * (1.0 - Transmittance) + Luminance;
-	OutColor[DTid.xy] = SceneLuminance;
+	OutColor[DTid.xy] = OutColor[DTid.xy].rgb * (1.0f.xxx - Transmittance) + Luminance;
 }

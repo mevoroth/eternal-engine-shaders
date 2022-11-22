@@ -8,7 +8,7 @@ REGISTER_U(RWTexture2D<float4>	OutColor,	0, 0);
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
 void CS( uint3 DTid : SV_DispatchThreadID )
 {
-	if (any(DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
+	if (any((int2)DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
 		return;
 
 	float4 Color = OutColor[DTid.xy];
