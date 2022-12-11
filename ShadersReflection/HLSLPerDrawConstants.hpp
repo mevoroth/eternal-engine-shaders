@@ -7,6 +7,10 @@ HLSL_BEGIN_STRUCT(PerDrawConstants)
 	uint PrimitivesCount;
 	uint _Pad0;
 	uint _Pad1;
+
+	uint4 _Pad2;
+	uint4 _Pad3;
+	uint4 _Pad4;
 HLSL_END_STRUCT(PerDrawConstants)
 
 #endif
