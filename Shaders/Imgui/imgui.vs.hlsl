@@ -1,6 +1,6 @@
 #include "imgui/imgui.common.hlsl"
 
-REGISTER_B(ConstantBuffer<ProjectionConstants> ProjectionConstantBuffer,	0, 0);
+CONSTANT_BUFFER(ProjectionConstants, ProjectionConstantBuffer,	0, 0);
 
 PSIn VS( VSIn IN )
 {

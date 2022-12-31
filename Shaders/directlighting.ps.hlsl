@@ -1,7 +1,7 @@
 #include "directlighting.common.hlsl"
 #include "brdf.common.hlsl"
 
-REGISTER_B(ConstantBuffer<DirectLightingConstants>	DirectLightingBuffer,		0, 0);
+CONSTANT_BUFFER(DirectLightingConstants,			DirectLightingBuffer,		0, 0);
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(											1, 0);
 REGISTER_T(Texture2D<float>							DepthTexture,				0, 0);
 REGISTER_T(Texture2D<float4>						AlbedoTexture,				1, 0);
