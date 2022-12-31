@@ -133,12 +133,12 @@ bool InitializeCloudsMarchingRange(float3 RayOrigin, float3 RayDirection, float 
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
 void CS( uint3 DTid : SV_DispatchThreadID )
 {
-	if (any((int2)DTid.xy >= PerViewConstantBuffer.ScreenSizeAndInverseSize.xy))
+	if (any((int2)DTid.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
 		return;
 	
-	const float2 ScreenUV		= (DTid.xy + 0.5f) * PerViewConstantBuffer.ScreenSizeAndInverseSize.zw;
+	const float2 ScreenUV		= (DTid.xy + 0.5f) * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
 	const float3 RayOrigin		= PerViewConstantBuffer.ViewPosition.xyz;
-	const float3 RayDirection	= normalize(UVDepthToWorldPosition(ScreenUV, PerViewConstantBuffer.RenderFarPlane, PerViewConstantBuffer.ClipToWorld) - RayOrigin);
+	const float3 RayDirection	= normalize(UVDepthToWorldPosition(ScreenUV, PerViewConstantBuffer.ViewRenderFarPlane, PerViewConstantBuffer.ClipToWorld) - RayOrigin);
 
 	float2 CloudsMarchingMinMax		= (float2)0.0f;
 	
