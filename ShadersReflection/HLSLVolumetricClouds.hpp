@@ -4,17 +4,22 @@
 #define VOLUMETRIC_PHASE_COUNT	(2)
 
 HLSL_BEGIN_STRUCT(VolumetricCloudsConstants)
-	HLSL_ARRAY_VEC1(float, PhaseG, VOLUMETRIC_PHASE_COUNT);
+	HLSL_ARRAY_VEC1(float, CloudsPhaseG, VOLUMETRIC_PHASE_COUNT);
 
-	float BottomLayerRadiusMeters;
-	float TopLayerRadiusMeters;
-	float BottomLayerRadiusMetersSquared;
-	float TopLayerRadiusMetersSquared;
+	float CloudsBottomLayerRadiusMeters;
+	float CloudsTopLayerRadiusMeters;
+	float CloudsBottomLayerRadiusMetersSquared;
+	float CloudsTopLayerRadiusMetersSquared;
 
-	float PhaseBlend;
-	float MaxStepsRcp;
-	int MaxSteps;
-	int _Pad0;
+	float CloudsPhaseBlend;
+	float CloudsDensity;
+	float CloudsMaxStepsRcp;
+	int CloudsMaxSteps;
+
+	float CloudsNoiseScale;
+	float _Pad0;
+	float _Pad1;
+	float _Pad2;
 HLSL_END_STRUCT(VolumetricCloudsConstants)
 
 #endif
