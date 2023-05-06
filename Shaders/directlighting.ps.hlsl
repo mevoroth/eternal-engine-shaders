@@ -32,8 +32,6 @@ BRDFInput InitializeBRDFInput( PSIn IN )
 	
 	Out.NdotV					= max(dot(Out.N, Out.V), 0.0f);
 
-	//float3 Specular;
-
 	return Out;
 }
 

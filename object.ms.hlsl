@@ -1,9 +1,11 @@
 #include "object.common.hlsl"
 
-CONSTANT_BUFFER(PerDrawConstants,	PerDrawConstantBuffer,			0, 0);
-REGISTER_B_PER_VIEW_CONSTANT_BUFFER(								1, 0);
-REGISTER_T(StructuredBuffer<VSIn>	Vertices,						0, 0);
-REGISTER_T(StructuredBuffer<uint3>	Indices,						1, 0);
+CONSTANT_BUFFER(PerDrawConstants,	PerDrawConstantBuffer,					0, 0);
+CONSTANT_BUFFER(PerDrawInstanceConstants, PerDrawInstanceConstantBuffer,	1, 0);
+REGISTER_B_PER_VIEW_CONSTANT_BUFFER(										2, 0);
+REGISTER_T(StructuredBuffer<VSIn>	Vertices,								0, 0);
+REGISTER_T(StructuredBuffer<uint3>	Indices,								1, 0);
+REGISTER_T_PER_INSTANCE_STRUCTURED_BUFFER(									2, 0);
 
 [numthreads(128, 1, 1)]
 [outputtopology("triangle")]
@@ -21,7 +23,12 @@ void MS(
 
 	if (PrimitiveIndex < VerticesCount)
 	{
-		PSIn OUT = ComputePSIn(Vertices[PrimitiveIndex], PerDrawConstantBuffer, PerViewConstantBuffer);
+		PSIn OUT = ComputePSIn(
+			Vertices[PrimitiveIndex],
+			PerDrawConstantBuffer,
+			PerViewConstantBuffer,
+			PerInstanceStructuredBuffer[PerDrawInstanceConstantBuffer.InstanceStart + 0]
+		);
 
 		OutVertices[PrimitiveIndex] = OUT;
 	}

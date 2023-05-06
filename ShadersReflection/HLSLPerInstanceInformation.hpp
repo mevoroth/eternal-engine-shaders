@@ -1,0 +1,8 @@
+#ifndef _HLSL_PER_INSTANCE_INFORMATION_HPP_
+#define _HLSL_PER_INSTANCE_INFORMATION_HPP_
+
+HLSL_BEGIN_STRUCT(PerInstanceInformation)
+	float4x4 InstanceWorldToWorld;
+HLSL_END_STRUCT(PerInstanceInformation)
+
+#endif

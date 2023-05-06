@@ -4,6 +4,7 @@
 #include "platform.common.hlsl"
 #include "common.hlsl"
 #include "perview.common.hlsl"
+#include "perinstance.common.hlsl"
 #include "ShadersReflection/HLSLPerDrawConstants.hpp"
 
 #ifndef OBJECT_NEEDS_NORMAL
@@ -24,18 +25,19 @@
 
 struct VSIn
 {
-	float4 Position : POSITION;
+	float4 Position		: POSITION;
+	uint InstanceIndex	: SV_InstanceID;
 #if OBJECT_NEEDS_NORMAL
-	float3 Normal	: NORMAL;
+	float3 Normal		: NORMAL;
 #endif
 #if OBJECT_NEEDS_TANGENT
-	float3 Tangent	: TANGENT;
+	float3 Tangent		: TANGENT;
 #endif
 #if OBJECT_NEEDS_BINORMAL
-	float3 Binormal	: BINORMAL;
+	float3 Binormal		: BINORMAL;
 #endif
 #if OBJECT_NEEDS_UV
-	float2 UV		: TEXCOORD0;
+	float2 UV			: TEXCOORD0;
 #endif
 };
 
@@ -64,20 +66,26 @@ struct PSOut
 	float4 RoughnessMetallicSpecular	: SV_Target3;
 };
 
-PSIn ComputePSIn(VSIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer)
+PSIn ComputePSIn(VSIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer, PerInstanceInformation PerInstanceInformationStructuredBuffer)
 {
 	PSIn OUT = (PSIn)0;
 
 	OUT.SVPosition = mul(PerDrawConstantBuffer.SubMeshToWorld, IN.Position);
+	OUT.SVPosition = mul(PerInstanceInformationStructuredBuffer.InstanceWorldToWorld, OUT.SVPosition);
 	OUT.SVPosition = mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
 #if OBJECT_NEEDS_NORMAL
 	OUT.Normal = IN.Normal;
-#endif
-#if OBJECT_NEEDS_TANGENT
-	OUT.Tangent = IN.Tangent;
-#endif
-#if OBJECT_NEEDS_BINORMAL
-	OUT.Binormal = IN.Binormal;
+
+	float3 Tangent = cross(OUT.Normal, float3(1.0f, 0.0f, 0.0f));
+	float3 Binormal = cross(Tangent, OUT.Normal);
+	#if OBJECT_NEEDS_TANGENT
+		OUT.Tangent = IN.Tangent;
+		//OUT.Tangent = normalize(Tangent);
+	#endif
+	#if OBJECT_NEEDS_BINORMAL
+		OUT.Binormal = IN.Binormal;
+		//OUT.Binormal = normalize(Binormal);
+	#endif
 #endif
 #if OBJECT_NEEDS_UV
 	OUT.UV = IN.UV;

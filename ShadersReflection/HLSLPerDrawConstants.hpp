@@ -13,4 +13,11 @@ HLSL_BEGIN_STRUCT(PerDrawConstants)
 	uint4 _Pad4;
 HLSL_END_STRUCT(PerDrawConstants)
 
+HLSL_BEGIN_STRUCT(PerDrawInstanceConstants)
+	uint InstanceStart;
+	uint _Pad0;
+	uint _Pad1;
+	uint _Pad2;
+HLSL_END_STRUCT(PerDrawInstanceConstants)
+
 #endif

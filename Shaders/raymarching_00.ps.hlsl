@@ -16,7 +16,7 @@ struct LightInfo
 	float LightIntensity;
 };
 
-static const float Pi = 3.14159265359f;
+static const float Pi = 3.14159265358979323846f;
 
 static const float3 SphereCenter = float3(0, 0, 300);
 static const float SphereRadius = 15;
