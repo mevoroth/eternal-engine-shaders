@@ -25,7 +25,7 @@
 
 struct VSIn
 {
-	float4 Position		: POSITION;
+	float3 PositionWS	: POSITION;
 	uint InstanceIndex	: SV_InstanceID;
 #if OBJECT_NEEDS_NORMAL
 	float3 Normal		: NORMAL;
@@ -70,7 +70,7 @@ PSIn ComputePSIn(VSIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstan
 {
 	PSIn OUT = (PSIn)0;
 
-	OUT.SVPosition = mul(PerDrawConstantBuffer.SubMeshToWorld, IN.Position);
+	OUT.SVPosition = mul(PerDrawConstantBuffer.SubMeshToWorld, float4(IN.PositionWS, 1.0f));
 	OUT.SVPosition = mul(PerInstanceInformationStructuredBuffer.InstanceWorldToWorld, OUT.SVPosition);
 	OUT.SVPosition = mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
 #if OBJECT_NEEDS_NORMAL
