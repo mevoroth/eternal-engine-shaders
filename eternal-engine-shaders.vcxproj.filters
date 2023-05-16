@@ -120,6 +120,15 @@
     <FxCompile Include="perinstance.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\fixedcolor.ps.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\cube.vs.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\cube.common.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
@@ -141,6 +150,9 @@
       <Filter>ShadersReflection</Filter>
     </ClInclude>
     <ClInclude Include="ShadersReflection\HLSLPerInstanceInformation.hpp">
+      <Filter>ShadersReflection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersReflection\HLSLCubePerInstanceInformation.hpp">
       <Filter>ShadersReflection</Filter>
     </ClInclude>
   </ItemGroup>
