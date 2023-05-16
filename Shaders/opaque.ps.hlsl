@@ -15,7 +15,8 @@ PSOut PS( PSIn IN )
 		IN.Tangent
 	);
 	float3 Normals					= NormalsTexture.Sample(BilinearSampler, IN.UV).xyz;
-	Normals							= mul(Normals, TangentSpace);
+	Normals							= normalize(Normals) * 2.0f - 1.0f;
+	Normals							= mul(TangentSpace, Normals);
 
 	OUT.Emissive					= 0.0f;
 	OUT.Albedo						= AlbedoTexture.Sample(BilinearSampler, IN.UV);
