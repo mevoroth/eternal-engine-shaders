@@ -1,6 +1,8 @@
 #ifndef _HLSL_PER_VIEW_CONSTANTS_HPP_
 #define _HLSL_PER_VIEW_CONSTANTS_HPP_
 
+#define VIEW_CUBE_MAP_FACE_COUNT	(6)
+
 HLSL_BEGIN_STRUCT(PerViewConstants)
 	float4x4 WorldToClip;
 	float4x4 ClipToWorld;
@@ -16,5 +18,9 @@ HLSL_BEGIN_STRUCT(PerViewConstants)
 	float _Pad0;
 	float _Pad1;
 HLSL_END_STRUCT(PerViewConstants)
+
+HLSL_BEGIN_STRUCT(PerViewCubeMapConstants)
+	PerViewConstants PerViewFace[VIEW_CUBE_MAP_FACE_COUNT];
+HLSL_END_STRUCT(PerViewCubeMapConstants)
 
 #endif

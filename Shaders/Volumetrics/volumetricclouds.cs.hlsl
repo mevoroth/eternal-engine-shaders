@@ -1,7 +1,7 @@
 #include "platform.common.hlsl"
 #include "common.hlsl"
 #include "perview.common.hlsl"
-#include "ShadersReflection/HLSLVolumetricClouds.hpp"
+#include "ShadersReflection/HLSLVolumetricCloudsConstants.hpp"
 
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(													0, 0);
 CONSTANT_BUFFER(VolumetricCloudsConstants, VolumetricCloudsConstantBuffer,				1, 0);
@@ -24,12 +24,7 @@ SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, f
 	return Description;
 }
 
-struct ParticipatingMediaDescription
-{
-	float3 Scattering;
-	float3 Extinction;
-};
-
+#include "Volumetrics/volumetrics.type.hlsl"
 ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 {
 	ParticipatingMediaDescription ParticipatingMedia = (ParticipatingMediaDescription)0;
@@ -41,10 +36,10 @@ ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 	
 	if (dot(PositionToSphereCenter, PositionToSphereCenter) > SphereSize * SphereSize)
 	{
-		ParticipatingMedia.Scattering = float3(0.7, 0.7, 0.9);
+		ParticipatingMedia.Scattering[SCATTERING_TYPE_MIE]		= float3(0.7, 0.7, 0.9);
 		ParticipatingMedia.Extinction = float3(0.75, 0.25, 0);
 		float4 BaseClouds = BaseCloudsTexture.SampleLevel(BilinearSampler, PositionWS / 10000.0f, 0).xyzw;
-		ParticipatingMedia.Scattering *= BaseClouds.x * VolumetricCloudsConstantBuffer.CloudsDensity;
+		ParticipatingMedia.Scattering[SCATTERING_TYPE_MIE] *= BaseClouds.x * VolumetricCloudsConstantBuffer.CloudsDensity;
 		ParticipatingMedia.Extinction *= BaseClouds.x * VolumetricCloudsConstantBuffer.CloudsDensity;
 	}
 	//else
@@ -55,6 +50,7 @@ ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 
 	return ParticipatingMedia;
 }
+#include "Volumetrics/volumetrics.common.hlsl"
 
 float3 SampleCloudsShadow(float3 PositionWS, float3 RayDirection)
 {
@@ -74,12 +70,6 @@ float3 SampleCloudsShadow(float3 PositionWS, float3 RayDirection)
 	}
 
 	return exp(-Extinction * MaxShadowDistance);
-}
-
-float HenyeyGreensteinPhase(float G, float CosTheta)
-{
-	float GSquared = G * G;
-	return (1.0f - GSquared) / pow(abs(1.0f + GSquared - 2 * G * CosTheta), 3.0f / 2.0f);
 }
 
 bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescription Sphere, out float2 OutSolutions)
@@ -176,7 +166,7 @@ void CS( uint3 DTid : SV_DispatchThreadID )
 		
 		const float3 CloudsShadow = SampleCloudsShadow(CloudsMarchingPosition, -LightDirection);
 
-		float3 ScatteredLuminance = LightLuminance * ParticipatingMedia.Scattering * PhaseFinal * CloudsShadow;
+		float3 ScatteredLuminance = LightLuminance * ParticipatingMedia.Scattering[SCATTERING_TYPE_MIE] * PhaseFinal * CloudsShadow;
 
 		const float3 SafeExtinctionThreshold = 0.000001f;
 		const float3 SafeExtinction = max(SafeExtinctionThreshold, ParticipatingMedia.Extinction);

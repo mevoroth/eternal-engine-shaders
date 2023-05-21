@@ -16,6 +16,9 @@
     <Filter Include="Shaders\SignedDistanceField">
       <UniqueIdentifier>{74bfaf68-0af5-4ca8-8b33-68f613f23aa7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Volumetrics">
+      <UniqueIdentifier>{d8e0b663-0066-4ec6-b8d5-0a1397d0e079}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\common.hlsl">
@@ -108,9 +111,6 @@
     <FxCompile Include="Shaders\tonemapping.cs.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\volumetricclouds.cs.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Shaders\SignedDistanceField\sdfclassify.cs.hlsl">
       <Filter>Shaders\SignedDistanceField</Filter>
     </FxCompile>
@@ -129,6 +129,18 @@
     <FxCompile Include="Shaders\cube.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetrics.common.hlsl">
+      <Filter>Shaders\Volumetrics</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\atmosphere.ps.hlsl">
+      <Filter>Shaders\Volumetrics</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetricclouds.cs.hlsl">
+      <Filter>Shaders\Volumetrics</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetrics.type.hlsl">
+      <Filter>Shaders\Volumetrics</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
@@ -146,13 +158,16 @@
     <ClInclude Include="ShadersReflection\Imgui\HLSLImgui.hpp">
       <Filter>ShadersReflection\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="ShadersReflection\HLSLVolumetricClouds.hpp">
+    <ClInclude Include="ShadersReflection\HLSLVolumetricCloudsConstants.hpp">
       <Filter>ShadersReflection</Filter>
     </ClInclude>
     <ClInclude Include="ShadersReflection\HLSLPerInstanceInformation.hpp">
       <Filter>ShadersReflection</Filter>
     </ClInclude>
     <ClInclude Include="ShadersReflection\HLSLCubePerInstanceInformation.hpp">
+      <Filter>ShadersReflection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersReflection\HLSLAtmosphereConstants.hpp">
       <Filter>ShadersReflection</Filter>
     </ClInclude>
   </ItemGroup>

@@ -302,7 +302,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Shaders\volumetricclouds.cs.hlsl">
+    <FxCompile Include="Shaders\Volumetrics\atmosphere.ps.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetricclouds.cs.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetrics.common.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
@@ -312,7 +318,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Shaders\Volumetrics\volumetrics.type.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Shaders\vulkan.common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -320,13 +328,14 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ShadersReflection\HLSLAtmosphereConstants.hpp" />
     <ClInclude Include="ShadersReflection\HLSLCubePerInstanceInformation.hpp" />
     <ClInclude Include="ShadersReflection\HLSLDirectLighting.hpp" />
     <ClInclude Include="ShadersReflection\HLSLPerInstanceInformation.hpp" />
     <ClInclude Include="ShadersReflection\HLSLReflection.hpp" />
     <ClInclude Include="ShadersReflection\HLSLPerDrawConstants.hpp" />
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp" />
-    <ClInclude Include="ShadersReflection\HLSLVolumetricClouds.hpp" />
+    <ClInclude Include="ShadersReflection\HLSLVolumetricCloudsConstants.hpp" />
     <ClInclude Include="ShadersReflection\Imgui\HLSLImgui.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
