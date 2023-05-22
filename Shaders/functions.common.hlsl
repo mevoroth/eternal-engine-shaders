@@ -1,6 +1,20 @@
 #ifndef _FUNCTIONS_COMMON_HLSL_
 #define _FUNCTIONS_COMMON_HLSL_
 
+struct SphereDescription
+{
+	float3 SphereCenter;
+	float SphereRadiusMetersSquared;
+};
+
+SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, float3 SphereCenter = (float3)0.0f)
+{
+	SphereDescription Description			= (SphereDescription)0;
+	Description.SphereCenter				= SphereCenter;
+	Description.SphereRadiusMetersSquared	= SphereRadiusMetersSquared;
+	return Description;
+}
+
 float Luminance(float3 Color)
 {
 	return dot(Color, float3(0.2126f, 0.7152f, 0.0722f));
@@ -21,6 +35,22 @@ float3 UVDepthToWorldPosition(float2 UV, float Depth, float4x4 ClipToWorld)
 float3 SafeNormalize(float3 Vector)
 {
 	return Vector * rsqrt(max(dot(Vector, Vector), EPSILON));
+}
+
+bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescription Sphere, out float2 OutSolutions)
+{
+	float3 LocalPosition = RayOrigin - Sphere.SphereCenter.xyz;
+	float LocalPositionSquared = dot(LocalPosition, LocalPosition);
+	float2 QuadraticCoefficient = float2(
+		2.0f * dot(RayDirection, RayDirection),
+		LocalPositionSquared - Sphere.SphereRadiusMetersSquared
+	);
+	float Discriminant = QuadraticCoefficient.x * QuadraticCoefficient.x - 4 * QuadraticCoefficient.y;
+	float SqrtDiscriminant = sqrt(Discriminant);
+
+	OutSolutions = (-QuadraticCoefficient.xx + float2(-1, 1) * SqrtDiscriminant.xx) * 0.5f;
+	
+	return Discriminant >= 0;
 }
 
 #endif

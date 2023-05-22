@@ -10,20 +10,6 @@ REGISTER_T(Texture3D<float4>	BaseCloudsTexture,										1, 0);
 REGISTER_S(SamplerState			BilinearSampler,										0, 0);
 RW_RESOURCE(RWTexture2D, float3, SPIRV_FORMAT_R11FG11FB10F, OutColor,					0, 0);
 
-struct SphereDescription
-{
-	float3 SphereCenter;
-	float SphereRadiusMetersSquared;
-};
-
-SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, float3 SphereCenter = (float3)0.0f)
-{
-	SphereDescription Description			= (SphereDescription)0;
-	Description.SphereCenter				= SphereCenter;
-	Description.SphereRadiusMetersSquared	= SphereRadiusMetersSquared;
-	return Description;
-}
-
 #include "Volumetrics/volumetrics.type.hlsl"
 ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 {
@@ -70,22 +56,6 @@ float3 SampleCloudsShadow(float3 PositionWS, float3 RayDirection)
 	}
 
 	return exp(-Extinction * MaxShadowDistance);
-}
-
-bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescription Sphere, out float2 OutSolutions)
-{
-	float3 LocalPosition = RayOrigin - Sphere.SphereCenter.xyz;
-	float LocalPositionSquared = dot(LocalPosition, LocalPosition);
-	float2 QuadraticCoefficient = float2(
-		2.0f * dot(RayDirection, RayDirection),
-		LocalPositionSquared - Sphere.SphereRadiusMetersSquared
-	);
-	float Discriminant = QuadraticCoefficient.x * QuadraticCoefficient.x - 4 * QuadraticCoefficient.y;
-	float SqrtDiscriminant = sqrt(Discriminant);
-
-	OutSolutions = (-QuadraticCoefficient.xx + float2(-1, 1) * SqrtDiscriminant.xx) * 0.5f;
-	
-	return Discriminant >= 0;
 }
 
 bool InitializeCloudsMarchingRange(float3 RayOrigin, float3 RayDirection, float CloudsMarchingRangeMax, out float2 OutCloudsMarchingMinMax)
