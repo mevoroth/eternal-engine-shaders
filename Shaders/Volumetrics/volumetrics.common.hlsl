@@ -46,30 +46,30 @@ IntegrateScatteringResult IntegrateScattering(IntegrateScatteringParameters Inte
 {
 	IntegrateScatteringResult Result = InitializeIntegrateScatteringResult();
 	
-	int IntegrateStepCount					= 16;
-	float IntegrateStepCountRcp				= rcp((float)IntegrateStepCount);
-	float IntegrateRangeMin					= 0.0f;
-	float IntegrateRangeMax					= 1.0f;
-	float3 IntegratePositionWS				= float3(0.0f, 0.0f, 0.0f);
-	float3 IntegrateDirection				= float3(0.0f, 1.0f, 0.0f);
-	float IntegrateStepDeltaMeters			= (IntegrateRangeMax - IntegrateRangeMin);
-	float3 IntegrateLightIlluminance		= (float3) 1000.0f;
+	int IntegrateStepCount					= IntegrateParameters.IntegrateStepCount;
+	float IntegrateStepCountRcp				= IntegrateParameters.IntegrateStepCountRcp;
+	float IntegrateRangeMin					= IntegrateParameters.IntegrateRangeMin;
+	float IntegrateRangeMax					= IntegrateParameters.IntegrateRangeMax;
+	float3 IntegratePositionWS				= IntegrateParameters.IntegratePositionWS;
+	float3 IntegrateDirection				= IntegrateParameters.IntegrateDirection;
+	float IntegrateStepDelta				= (IntegrateRangeMax - IntegrateRangeMin) * IntegrateStepCountRcp;
+	float3 IntegrateLightIlluminance		= IntegrateParameters.IntegrateLightIlluminance;
 	DiffusionDescription IntegrateDiffusion	= IntegrateParameters.IntegrateDiffusion;
 	
 	for (int Step = 0; Step < IntegrateStepCount; ++Step)
 	{
 		ParticipatingMediaDescription ParticipatingMedia = SampleParticipatingMedia(IntegratePositionWS);
 		
-		float3 DeltaExtinction		= ParticipatingMedia.Extinction * IntegrateStepDeltaMeters;
+		float3 DeltaExtinction		= ParticipatingMedia.Extinction * IntegrateStepDelta;
 		float3 DeltaTransmittance	= exp(-DeltaExtinction);
-		float3 DeltaIlluminance = IntegrateLightIlluminance * EvaluateScattering(ParticipatingMedia, IntegrateDiffusion);
+		float3 DeltaIlluminance		= IntegrateLightIlluminance * EvaluateScattering(ParticipatingMedia, IntegrateDiffusion);
 		
 		float3 DeltaScattering		= (DeltaIlluminance - DeltaIlluminance * DeltaTransmittance) / ParticipatingMedia.Extinction;
 		
 		Result.Luminance			+= Result.Transmittance * DeltaScattering;
 		Result.Transmittance		*= DeltaTransmittance;
 		
-		IntegratePositionWS += IntegrateDirection * IntegrateStepDeltaMeters;
+		IntegratePositionWS += IntegrateDirection * IntegrateStepDelta;
 	}
 	
 	return Result;
