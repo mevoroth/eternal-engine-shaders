@@ -4,9 +4,16 @@
 #define EPSILON						(1e-5f)
 #define PI							(3.14159265358979323846f)
 #define PI_2						(PI * 2.0f)
+#define PI_4						(PI * 4.0f)
 #define PI_RCP						(1.0f / PI)
 #define PI_2_RCP					(1.0f / PI_2)
+#define PI_4_RCP					(1.0f / PI_4)
 #define MIN_DIELECTRICS_F0			(0.04f)
+#define EARTH_RADIUS_KM				(6371.0f)	// km
+#define EARTH_RADIUS_KM_SQUARED		(EARTH_RADIUS_KM * EARTH_RADIUS_KM)
+#define ATMOSPHERE_RADIUS_KM		(6431.0f)	// km
+#define M_TO_KM						(1.0f / 1000.0f)
+#define KM_TO_M						(1000.0f)
 
 // Spir-V
 #define SPIRV_FORMAT_RGBA32F		format_rgba32f
