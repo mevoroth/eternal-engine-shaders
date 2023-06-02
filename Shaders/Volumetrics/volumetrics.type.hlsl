@@ -19,6 +19,7 @@ struct ParticipatingMediaDescription
 struct IntegrateScatteringResult
 {
 	float3 Luminance;
+	float3 Extinction;
 	float3 Transmittance;
 };
 

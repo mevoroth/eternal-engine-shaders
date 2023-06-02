@@ -37,6 +37,7 @@ IntegrateScatteringResult InitializeIntegrateScatteringResult()
 	IntegrateScatteringResult Result;
 	
 	Result.Luminance		= (float3)0.0f;
+	Result.Extinction		= (float3)0.0f;
 	Result.Transmittance	= (float3)1.0f;
 	
 	return Result;
@@ -67,6 +68,7 @@ IntegrateScatteringResult IntegrateScattering(IntegrateScatteringParameters Inte
 		float3 DeltaScattering		= (DeltaIlluminance - DeltaIlluminance * DeltaTransmittance) / ParticipatingMedia.Extinction;
 		
 		Result.Luminance			+= Result.Transmittance * DeltaScattering;
+		Result.Extinction			+= DeltaExtinction;
 		Result.Transmittance		*= DeltaTransmittance;
 		
 		IntegratePositionWS += IntegrateDirection * IntegrateStepDelta;
