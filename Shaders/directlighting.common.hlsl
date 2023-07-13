@@ -7,7 +7,7 @@
 #include "screen.common.hlsl"
 #include "ShadersReflection/HLSLDirectLighting.hpp"
 
-struct PSOut
+struct ShaderPixelOut
 {
 	float4 Luminance : SV_Target0;
 };

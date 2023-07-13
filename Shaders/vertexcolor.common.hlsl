@@ -4,19 +4,19 @@
 #include "common.hlsl"
 #include "sampler.common.hlsl"
 
-struct VSIn
+struct ShaderVertexIn
 {
 	float4 Pos : SV_Position;
 	float4 Col : COLOR0;
 };
 
-struct PSIn
+struct ShaderPixelIn
 {
 	float4 Pos : SV_Position;
 	float4 Col : COLOR0;
 };
 
-struct PSOut
+struct ShaderPixelOut
 {
 	float Diffuse	: SV_Target0;
 	float Depth		: SV_Depth;

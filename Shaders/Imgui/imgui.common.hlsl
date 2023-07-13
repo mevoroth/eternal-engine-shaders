@@ -4,14 +4,14 @@
 #include "platform.common.hlsl"
 #include "ShadersReflection/Imgui/HLSLImgui.hpp"
 
-struct VSIn
+struct ShaderVertexIn
 {
 	float2 Position		: POSITION0;
 	float2 UV			: TEXCOORD0;
 	float4 Color		: COLOR0;
 };
 
-struct PSIn
+struct ShaderPixelIn
 {
 	float4 SVPosition	: SV_POSITION;
 	float4 Color		: COLOR0;

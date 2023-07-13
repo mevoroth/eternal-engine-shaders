@@ -27,31 +27,31 @@
     <FxCompile Include="Shaders\compositing.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\compositing.ps.hlsl">
+    <FxCompile Include="Shaders\compositing.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\compositing.vs.hlsl">
+    <FxCompile Include="Shaders\compositing.vertex.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\directlighting.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\directlighting.ps.hlsl">
+    <FxCompile Include="Shaders\directlighting.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\object.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\opaque.ps.hlsl">
+    <FxCompile Include="Shaders\opaque.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\object.vs.hlsl">
+    <FxCompile Include="Shaders\object.vertex.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\screen.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\screen.vs.hlsl">
+    <FxCompile Include="Shaders\screen.vertex.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\sampler.common.hlsl">
@@ -60,10 +60,10 @@
     <FxCompile Include="Shaders\vertexcolor.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\vertexcolor.ps.hlsl">
+    <FxCompile Include="Shaders\vertexcolor.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\vertexcolor.vs.hlsl">
+    <FxCompile Include="Shaders\vertexcolor.vertex.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\functions.common.hlsl">
@@ -75,16 +75,16 @@
     <FxCompile Include="Shaders\constants.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\defaultpostprocess.ps.hlsl">
+    <FxCompile Include="Shaders\defaultpostprocess.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\debugrender.ps.hlsl">
+    <FxCompile Include="Shaders\debugrender.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\raymarching_00.ps.hlsl">
+    <FxCompile Include="Shaders\raymarching_00.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\sampletexture.ps.hlsl">
+    <FxCompile Include="Shaders\sampletexture.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\platform.common.hlsl">
@@ -96,10 +96,10 @@
     <FxCompile Include="Shaders\vulkan.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\Imgui\imgui.vs.hlsl">
+    <FxCompile Include="Shaders\Imgui\imgui.vertex.hlsl">
       <Filter>Shaders\Imgui</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\Imgui\imgui.ps.hlsl">
+    <FxCompile Include="Shaders\Imgui\imgui.pixel.hlsl">
       <Filter>Shaders\Imgui</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\Imgui\imgui.common.hlsl">
@@ -108,22 +108,19 @@
     <FxCompile Include="Shaders\perview.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\tonemapping.cs.hlsl">
+    <FxCompile Include="Shaders\tonemapping.compute.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\SignedDistanceField\sdfclassify.cs.hlsl">
-      <Filter>Shaders\SignedDistanceField</Filter>
-    </FxCompile>
-    <FxCompile Include="object.ms.hlsl">
+    <FxCompile Include="object.mesh.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="perinstance.common.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\fixedcolor.ps.hlsl">
+    <FxCompile Include="Shaders\fixedcolor.pixel.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\cube.vs.hlsl">
+    <FxCompile Include="Shaders\cube.vertex.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\cube.common.hlsl">
@@ -132,10 +129,10 @@
     <FxCompile Include="Shaders\Volumetrics\volumetrics.common.hlsl">
       <Filter>Shaders\Volumetrics</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\Volumetrics\atmosphere.ps.hlsl">
+    <FxCompile Include="Shaders\Volumetrics\atmosphere.pixel.hlsl">
       <Filter>Shaders\Volumetrics</Filter>
     </FxCompile>
-    <FxCompile Include="Shaders\Volumetrics\volumetricclouds.cs.hlsl">
+    <FxCompile Include="Shaders\Volumetrics\volumetricclouds.compute.hlsl">
       <Filter>Shaders\Volumetrics</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\Volumetrics\volumetrics.type.hlsl">

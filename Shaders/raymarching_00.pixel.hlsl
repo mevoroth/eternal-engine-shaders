@@ -230,7 +230,7 @@ void EvaluateParticipatingMedia(float3 CurrentPosition, out float OutExtinction)
 	OutExtinction = ConstantFog + BoxFog * Noise * SmokeMask;
 }
 
-float4 PS( PSIn IN ) : SV_Target0
+float4 ShaderPixel( ShaderPixelIn IN ) : SV_Target0
 {
 	const float2 PositionSS		= (float2(IN.UV.x, 1.0f - IN.UV.y) * 2.0f - 1.0f) * float2(ScreenRatio, 1.0f);
 	const float3 RayDirection	= normalize(PositionSS.x * CameraRight + PositionSS.y * CameraUp + CameraForward);

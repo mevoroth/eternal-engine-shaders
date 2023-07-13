@@ -10,7 +10,7 @@ REGISTER_T(Texture2D<float4>						RoughnessMetallicSpecular,	3, 0);
 REGISTER_T(StructuredBuffer<LightInformation>		LightsBuffer,				4, 0);
 REGISTER_S(SamplerState								PointSampler,				0, 0);
 
-BRDFInput InitializeBRDFInput( PSIn IN )
+BRDFInput InitializeBRDFInput( ShaderPixelIn IN )
 {
 	BRDFInput Out = (BRDFInput)0;
 
@@ -46,9 +46,9 @@ void InitializeBRDFInput_DirectionalLight( inout BRDFInput InOutBRDFInput, Light
 	InOutBRDFInput.VdotH	= max(dot(InOutBRDFInput.V, InOutBRDFInput.H), 0.0f);
 }
 
-PSOut PS( PSIn IN )
+ShaderPixelOut ShaderPixel( ShaderPixelIn IN )
 {
-	PSOut OUT = (PSOut)0;
+	ShaderPixelOut OUT = (ShaderPixelOut)0;
 
 	BRDFInput Input = InitializeBRDFInput(IN);
 

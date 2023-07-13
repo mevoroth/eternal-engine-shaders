@@ -55,7 +55,7 @@ static const uint Indices[] =
 #error "Unsupported triangle mode"
 #endif
 
-struct VSIn
+struct ShaderVertexIn
 {
 	uint VertexIndex	: SV_VertexID;
 #if USE_MULTIPLE_LAYER_RENDER_TARGETS
@@ -63,11 +63,11 @@ struct VSIn
 #endif
 };
 
-PSIn VS( VSIn IN )
+ShaderPixelIn ShaderVertex( ShaderVertexIn IN )
 {
 	uint Index = Indices[IN.VertexIndex];
 
-	PSIn OUT = (PSIn) 0;
+	ShaderPixelIn OUT = (ShaderPixelIn) 0;
 
 	OUT.SvPosition				= float4(VerticesSvPositions[Index], 0.0f, 1.0f);
 	OUT.UV						= UVs[Index];

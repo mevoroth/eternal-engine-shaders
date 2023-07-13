@@ -91,7 +91,7 @@ bool InitializeCloudsMarchingRange(float3 RayOrigin, float3 RayDirection, float 
 }
 
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
-void CS( uint3 DTid : SV_DispatchThreadID )
+void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 {
 	if (any((int2)DTid.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
 		return;
@@ -150,5 +150,5 @@ void CS( uint3 DTid : SV_DispatchThreadID )
 		DistanceMeters += CloudsMarchingDeltaMeters;
 	}
 
-	OutColor[DTid.xy] = OutColor[DTid.xy].rgb * (1.0f.xxx - Transmittance) + Luminance;
+	//OutColor[DTid.xy] = OutColor[DTid.xy].rgb * (1.0f.xxx - Transmittance) + Luminance;
 }

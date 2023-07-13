@@ -3,7 +3,7 @@
 CONSTANT_BUFFER(PerDrawConstants,	PerDrawConstantBuffer,					0, 0);
 CONSTANT_BUFFER(PerDrawInstanceConstants, PerDrawInstanceConstantBuffer,	1, 0);
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(										2, 0);
-REGISTER_T(StructuredBuffer<VSIn>	Vertices,								0, 0);
+REGISTER_T(StructuredBuffer<ShaderVertexIn>	Vertices,								0, 0);
 REGISTER_T(StructuredBuffer<uint3>	Indices,								1, 0);
 REGISTER_T_PER_INSTANCE_STRUCTURED_BUFFER(									2, 0);
 
@@ -11,7 +11,7 @@ REGISTER_T_PER_INSTANCE_STRUCTURED_BUFFER(									2, 0);
 [outputtopology("triangle")]
 void MS(
 	uint3 DTid : SV_DispatchThreadID,
-	out vertices PSIn OutVertices[256],
+	out vertices ShaderPixelIn OutVertices[256],
 	out indices uint3 OutIndices[256]
 )
 {
@@ -23,7 +23,7 @@ void MS(
 
 	if (PrimitiveIndex < VerticesCount)
 	{
-		PSIn OUT = ComputePSIn(
+		ShaderPixelIn OUT = ComputeShaderPixelIn(
 			Vertices[PrimitiveIndex],
 			PerDrawConstantBuffer,
 			PerViewConstantBuffer,

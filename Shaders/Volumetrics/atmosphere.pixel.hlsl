@@ -14,12 +14,12 @@ REGISTER_B_PER_VIEW_CONSTANT_BUFFER(									1, 0);
 static const float3 EarthRayleighScattering = float3(5.8e-6f, 13.6e-6f, 33.1e-6f) * KM_TO_M;
 static const float3 EarthMieScattering		= (float3)(2.0e-6f  * KM_TO_M);
 
-struct PSOut
+struct ShaderPixelOut
 {
 	float4 OutLuminance : SV_Target0;
 };
 
-float3 GetRayOrigin( PSIn IN )
+float3 GetRayOrigin( ShaderPixelIn IN )
 {
 #if USE_MULTIPLE_LAYER_RENDER_TARGETS == MULTIPLE_LAYER_RENDER_TARGETS_CUBEMAP
 	uint CubeMapFace				= IN.RenderTargetArrayIndex;
@@ -30,7 +30,7 @@ float3 GetRayOrigin( PSIn IN )
 	return CurrentView.ViewPosition.xyz;
 }
 
-float3 GetRayDirection( PSIn IN )
+float3 GetRayDirection( ShaderPixelIn IN )
 {
 #if USE_MULTIPLE_LAYER_RENDER_TARGETS == MULTIPLE_LAYER_RENDER_TARGETS_CUBEMAP
 	uint CubeMapFace				= IN.RenderTargetArrayIndex;
@@ -75,9 +75,9 @@ DiffusionDescription InitializeDiffusionDescription(float G, float CosTheta)
 	return Diffusion;
 }
 
-PSOut PS( PSIn IN )
+ShaderPixelOut ShaderPixel( ShaderPixelIn IN )
 {
-	PSOut OUT = (PSOut)0.0f;
+	ShaderPixelOut OUT = (ShaderPixelOut)0.0f;
 	
 	const float3 RayOriginKm	= GetRayOrigin(IN) * M_TO_KM;
 	const float3 RayDirection	= GetRayDirection(IN);

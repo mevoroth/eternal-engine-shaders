@@ -7,7 +7,7 @@
 #include "perinstance.common.hlsl"
 #include "ShadersReflection/HLSLPerDrawConstants.hpp"
 
-struct PSIn
+struct ShaderPixelIn
 {
 	float4 SVPosition : SV_Position;
 };

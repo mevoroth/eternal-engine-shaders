@@ -21,7 +21,7 @@ struct PSOutFixedColor
 	float4 Color : SV_Target0;
 };
 
-PSOutFixedColor PS( PSIn IN )
+PSOutFixedColor ShaderPixel( ShaderPixelIn IN )
 {
 	PSOutFixedColor OUT = (PSOutFixedColor)0;
 

@@ -8,7 +8,7 @@
 #define USE_MULTIPLE_LAYER_RENDER_TARGETS		(MULTIPLE_LAYER_RENDER_TARGETS_NONE)
 #endif
 
-struct PSIn
+struct ShaderPixelIn
 {
 	float4 SvPosition			: SV_Position;
 	float2 UV					: TEXCOORD0;

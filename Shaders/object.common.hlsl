@@ -23,7 +23,7 @@
 #define OBJECT_NEEDS_UV				(0)
 #endif
 
-struct VSIn
+struct ShaderVertexIn
 {
 	float3 PositionWS	: POSITION;
 	uint InstanceIndex	: SV_InstanceID;
@@ -41,7 +41,7 @@ struct VSIn
 #endif
 };
 
-struct PSIn
+struct ShaderPixelIn
 {
 	float4 SVPosition	: SV_Position;
 #if OBJECT_NEEDS_NORMAL
@@ -58,7 +58,7 @@ struct PSIn
 #endif
 };
 
-struct PSOut
+struct ShaderPixelOut
 {
 	float3 Emissive						: SV_Target0;
 	float4 Albedo						: SV_Target1;
@@ -66,9 +66,9 @@ struct PSOut
 	float4 RoughnessMetallicSpecular	: SV_Target3;
 };
 
-PSIn ComputePSIn(VSIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer, PerInstanceInformation PerInstanceInformationStructuredBuffer)
+ShaderPixelIn ComputeShaderPixelIn(ShaderVertexIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer, PerInstanceInformation PerInstanceInformationStructuredBuffer)
 {
-	PSIn OUT = (PSIn)0;
+	ShaderPixelIn OUT = (ShaderPixelIn)0;
 
 	OUT.SVPosition = mul(PerDrawConstantBuffer.SubMeshToWorld, float4(IN.PositionWS, 1.0f));
 	OUT.SVPosition = mul(PerInstanceInformationStructuredBuffer.InstanceWorldToWorld, OUT.SVPosition);
