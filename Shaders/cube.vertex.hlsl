@@ -4,6 +4,10 @@
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(														0, 0);
 REGISTER_T(StructuredBuffer<CubePerInstanceInformation> CubePerInstanceStructuredBuffer,	0, 0);
 
+#ifndef PRIMITIVE_INDICES
+#define PRIMITIVE_INDICES	Lines
+#endif
+
 struct ShaderVertexIn
 {
 	uint VertexIndex	: SV_VertexID;
@@ -42,7 +46,7 @@ ShaderPixelIn ShaderVertex( ShaderVertexIn IN )
 {
 	ShaderPixelIn OUT = (ShaderPixelIn)0;
 
-	float3 CubeVertex	= CubeVertices[Lines[IN.VertexIndex]] * CubePerInstanceStructuredBuffer[IN.InstanceIndex].CubeExtent + CubePerInstanceStructuredBuffer[IN.InstanceIndex].CubeOrigin;
+	float3 CubeVertex	= CubeVertices[PRIMITIVE_INDICES[IN.VertexIndex]] * CubePerInstanceStructuredBuffer[IN.InstanceIndex].CubeExtent + CubePerInstanceStructuredBuffer[IN.InstanceIndex].CubeOrigin;
 	OUT.SVPosition		= mul(CubePerInstanceStructuredBuffer[IN.InstanceIndex].InstanceWorldToWorld, float4(CubeVertex, 1.0f));
 	OUT.SVPosition		= mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
 
