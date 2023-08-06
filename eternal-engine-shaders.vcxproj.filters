@@ -19,6 +19,18 @@
     <Filter Include="Shaders\Volumetrics">
       <UniqueIdentifier>{d8e0b663-0066-4ec6-b8d5-0a1397d0e079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\RayTracing">
+      <UniqueIdentifier>{1afe40da-f993-472b-99ac-a8d73b1668c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\RayTracing\Debug">
+      <UniqueIdentifier>{431beccd-4f26-42f4-b77b-e94c45e2326c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersReflection\RayTracing">
+      <UniqueIdentifier>{bf249541-fb08-4ac3-b1a8-4116f8aaf4ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadersReflection\RayTracing\Debug">
+      <UniqueIdentifier>{b7c676af-5e10-448c-b63b-7ebc5c0a0dfd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\common.hlsl">
@@ -138,6 +150,21 @@
     <FxCompile Include="Shaders\Volumetrics\volumetrics.type.hlsl">
       <Filter>Shaders\Volumetrics</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.raygeneration.hlsl">
+      <Filter>Shaders\RayTracing\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.common.hlsl">
+      <Filter>Shaders\RayTracing\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.closesthit.hlsl">
+      <Filter>Shaders\RayTracing\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.anyhit.hlsl">
+      <Filter>Shaders\RayTracing\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.miss.hlsl">
+      <Filter>Shaders\RayTracing\Debug</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
@@ -166,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="ShadersReflection\HLSLAtmosphereConstants.hpp">
       <Filter>ShadersReflection</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersReflection\RayTracing\Debug\HLSLRayGenerationConstants.hpp">
+      <Filter>ShadersReflection\RayTracing\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
