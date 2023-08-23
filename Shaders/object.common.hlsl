@@ -69,8 +69,8 @@ struct ShaderPixelOut
 ShaderPixelIn ComputeShaderPixelIn(ShaderVertexIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer, PerInstanceInformation PerInstanceInformationStructuredBuffer)
 {
 	ShaderPixelIn OUT = (ShaderPixelIn)0;
-
-	OUT.SVPosition = mul(PerDrawConstantBuffer.SubMeshToWorld, float4(IN.PositionWS, 1.0f));
+	
+	OUT.SVPosition = mul(float4(IN.PositionWS, 1.0f), PerDrawConstantBuffer.SubMeshToWorldTransposed);
 	OUT.SVPosition = mul(PerInstanceInformationStructuredBuffer.InstanceWorldToWorld, OUT.SVPosition);
 	OUT.SVPosition = mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
 #if OBJECT_NEEDS_NORMAL

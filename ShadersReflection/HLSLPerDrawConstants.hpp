@@ -2,7 +2,7 @@
 #define _HLSL_PER_DRAW_CONSTANTS_HPP_
 
 HLSL_BEGIN_STRUCT(PerDrawConstants)
-	float4x4 SubMeshToWorld;
+	float4x4 SubMeshToWorldTransposed;
 	uint VerticesCount;
 	uint PrimitivesCount;
 	uint _Pad0;
