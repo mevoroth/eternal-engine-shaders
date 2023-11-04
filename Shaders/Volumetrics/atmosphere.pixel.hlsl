@@ -11,7 +11,7 @@ CONSTANT_BUFFER(PerViewCubeMapConstants, PerViewCubeMapConstantBuffer,	1, 0);
 REGISTER_B_PER_VIEW_CONSTANT_BUFFER(									1, 0);
 #endif
 
-static const float3 EarthRayleighScattering = float3(5.8e-6f, 13.6e-6f, 33.1e-6f) * KM_TO_M;
+static const float3 EarthRayleighScattering	= float3(5.8e-6f, 13.6e-6f, 33.1e-6f) * KM_TO_M;
 static const float3 EarthMieScattering		= (float3)(2.0e-6f  * KM_TO_M);
 
 struct ShaderPixelOut
@@ -39,14 +39,7 @@ float3 GetRayDirection( ShaderPixelIn IN )
 	PerViewConstants CurrentView	= PerViewConstantBuffer;
 #endif
 	
-	const float3 RayOrigin		= CurrentView.ViewPosition.xyz;
-	const float3 RayDirection	= normalize(UVDepthToWorldPosition(
-		IN.UV,
-		CurrentView.ViewRenderFarPlane,
-		CurrentView.ClipToWorld
-	) - RayOrigin);
-	
-	return RayDirection;
+	return GetRayDirection(IN.UV, CurrentView);
 }
 
 #include "Volumetrics/volumetrics.type.hlsl"
@@ -59,7 +52,7 @@ ParticipatingMediaDescription SampleParticipatingMedia(float3 PositionWS)
 	
 	ParticipatingMedia.Scattering[SCATTERING_TYPE_MIE]		= EarthMieScattering * exp(-HeightDelta * (1.0f / 1.2f));
 	ParticipatingMedia.Scattering[SCATTERING_TYPE_RAYLEIGH]	= EarthRayleighScattering * exp(-HeightDelta * (1.0f / 8.0f));
-	ParticipatingMedia.Extinction = 0.01f;
+	ParticipatingMedia.Extinction							= 0.01f;
 	
 	return ParticipatingMedia;
 }

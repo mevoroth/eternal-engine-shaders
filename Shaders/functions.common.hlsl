@@ -1,6 +1,8 @@
 #ifndef _FUNCTIONS_COMMON_HLSL_
 #define _FUNCTIONS_COMMON_HLSL_
 
+#include "constants.common.hlsl"
+
 struct SphereDescription
 {
 	float3 SphereCenter;
