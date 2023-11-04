@@ -15,8 +15,8 @@ HLSL_BEGIN_STRUCT(PerViewConstants)
 	float4 ViewSizeAndInverseSize;
 	float ViewRenderNearPlane;
 	float ViewRenderFarPlane;
-	float _Pad0;
-	float _Pad1;
+	float ViewNearPlane;
+	float ViewFarPlane;
 HLSL_END_STRUCT(PerViewConstants)
 
 HLSL_BEGIN_STRUCT(PerViewCubeMapConstants)
