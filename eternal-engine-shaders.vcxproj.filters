@@ -165,6 +165,18 @@
     <FxCompile Include="Shaders\RayTracing\Debug\debugraytracing.miss.hlsl">
       <Filter>Shaders\RayTracing\Debug</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\raytracedreflections.raygeneration.hlsl">
+      <Filter>Shaders\RayTracing</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\raytracedreflections.common.hlsl">
+      <Filter>Shaders\RayTracing</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\raytracedreflections.closesthit.hlsl">
+      <Filter>Shaders\RayTracing</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\RayTracing\raytracedreflections.miss.hlsl">
+      <Filter>Shaders\RayTracing</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShadersReflection\HLSLPerViewConstants.hpp">
