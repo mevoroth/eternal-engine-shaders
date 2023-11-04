@@ -1,5 +1,5 @@
-#ifndef _PER_ISNTANCE_COMMON_HLSL_
-#define _PER_ISNTANCE_COMMON_HLSL_
+#ifndef _PER_INSTANCE_COMMON_HLSL_
+#define _PER_INSTANCE_COMMON_HLSL_
 
 #include "ShadersReflection/HLSLPerInstanceInformation.hpp"
 
