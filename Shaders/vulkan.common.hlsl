@@ -1,4 +1,4 @@
-#if PLATFORM_VULKAN
+#if ETERNAL_PLATFORM_VULKAN
 
 #define VULKAN_STRINGIFY(TEXT)														#TEXT
 #define VULKAN_CONCATENATE_REGISTER(Binding, ShaderResource)						Binding ShaderResource

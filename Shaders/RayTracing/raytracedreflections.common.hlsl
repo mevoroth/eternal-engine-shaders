@@ -1,7 +1,6 @@
 #ifndef _RAYTRACED_REFLECTIONS_COMMON_HLSL_
 #define _RAYTRACED_REFLECTIONS_COMMON_HLSL_
 
-#include "platform.common.hlsl"
 #include "perview.common.hlsl"
 
 struct RayPayload

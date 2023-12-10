@@ -110,28 +110,34 @@ float PhongNormalizationTerm(float Shininess)
 
 LuminanceOuput EvaluateNull(BRDFInput In)
 {
+	(BRDFInput)In;
 	return (LuminanceOuput)0;
 }
 
 LuminanceOuput FresnelNull(float3 F0, float F90, float VdotX)
 {
+	(float3)F0;
+	(float)F90;
+	(float)VdotX;
 	return (LuminanceOuput)1;
 }
 
 float NormalDistributionNull(BRDFInput In)
 {
+	(BRDFInput)In;
 	return 0.5f;
 }
 
 float GeometryAttenuationNull(BRDFInput In)
 {
+	(BRDFInput)In;
 	return 1.0f;
 }
 
 float ShadowedF90(float3 F0)
 {
 	const float MinDielectricsF0Rcp = (1.0f / MIN_DIELECTRICS_F0);
-	return min(1.0f, MinDielectricsF0Rcp * Luminance(F0));
+	return min(1.0f, MinDielectricsF0Rcp * ColorToLuminance(F0));
 }
 
 float DielectricSpecularToF0(float Specular)
@@ -184,6 +190,7 @@ LuminanceOuput EvaluateDiffuseLambert(BRDFInput In)
 
 LuminanceOuput EvaluateDiffuseOrenNayar(BRDFInput In)
 {
+	(BRDFInput)In;
 	LuminanceOuput Out = (LuminanceOuput)0;
 
 	return Out;

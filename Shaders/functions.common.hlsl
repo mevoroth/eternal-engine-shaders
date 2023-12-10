@@ -17,7 +17,7 @@ SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, f
 	return Description;
 }
 
-float Luminance(float3 Color)
+float ColorToLuminance(float3 Color)
 {
 	return dot(Color, float3(0.2126f, 0.7152f, 0.0722f));
 }

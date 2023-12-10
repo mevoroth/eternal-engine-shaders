@@ -1,4 +1,3 @@
-#include "platform.common.hlsl"
 #include "common.hlsl"
 #include "perview.common.hlsl"
 #include "ShadersReflection/HLSLVolumetricCloudsConstants.hpp"
@@ -105,6 +104,7 @@ void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 	const float Depth				= DepthTexture[DTid.xy].x;
 	const float3 GeometryPosition	= UVDepthToWorldPosition(ScreenUV, Depth, PerViewConstantBuffer.ClipToWorld);
 	const float GeometryIntersect	= dot(GeometryPosition, RayDirection);
+	(float)GeometryIntersect;
 
 	float CloudsMarchingRangeMax = min(distance(GeometryPosition, RayOrigin), 10000.0f);
 

@@ -1,4 +1,4 @@
-#if PLATFORM_DX12
+#if ETERNAL_PLATFORM_DX12
 
 #define DX12_CONCATENATE_REGISTER(ShaderResource, Register)							ShaderResource Register
 

@@ -1,4 +1,3 @@
-#include "platform.common.hlsl"
 #include "common.hlsl"
 #include "perview.common.hlsl"
 

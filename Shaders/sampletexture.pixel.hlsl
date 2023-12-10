@@ -1,4 +1,3 @@
-#include "platform.common.hlsl"
 #include "screen.common.hlsl"
 
 REGISTER_T(Texture2D<float4>	Texture,							0, 0);

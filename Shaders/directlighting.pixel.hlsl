@@ -21,7 +21,7 @@ BRDFInput InitializeBRDFInput( ShaderPixelIn IN )
 
 	float3 WorldPosition		= UVDepthToWorldPosition(IN.UV, DepthSample, PerViewConstantBuffer.ClipToWorld);
 
-	Out.Albedo					= AlbedoTexture.Sample(PointSampler, IN.UV).rgb;
+	Out.Albedo					= AlbedoSample;
 	Out.Specular				= ComputeF0(RoughnessMetallicSpecularSample.z, Out.Albedo, RoughnessMetallicSpecularSample.y);
 	Out.Roughness				= RoughnessMetallicSpecularSample.x;
 	Out.LinearRoughness			= Out.Roughness * Out.Roughness;
@@ -53,8 +53,6 @@ ShaderPixelOut ShaderPixel( ShaderPixelIn IN )
 	BRDFInput Input = InitializeBRDFInput(IN);
 
 	const uint LightsCount = DirectLightingBuffer.LightsCount;
-	
-	LuminanceOuput Lighting = (LuminanceOuput)0;
 	
 	for (uint LightIndex = 0; LightIndex < LightsCount; ++LightIndex)
 	{

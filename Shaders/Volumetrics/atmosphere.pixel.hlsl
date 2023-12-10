@@ -1,4 +1,3 @@
-#include "platform.common.hlsl"
 #include "common.hlsl"
 #include "screen.common.hlsl"
 #include "perview.common.hlsl"
@@ -25,6 +24,7 @@ float3 GetRayOrigin( ShaderPixelIn IN )
 	uint CubeMapFace				= IN.RenderTargetArrayIndex;
 	PerViewConstants CurrentView	= PerViewCubeMapConstantBuffer.PerViewFace[CubeMapFace];
 #else // USE_MULTIPLE_LAYER_RENDER_TARGETS == MULTIPLE_LAYER_RENDER_TARGETS_NONE
+	(ShaderPixelIn)IN;
 	PerViewConstants CurrentView	= PerViewConstantBuffer;
 #endif
 	return CurrentView.ViewPosition.xyz;

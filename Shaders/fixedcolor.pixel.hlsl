@@ -18,11 +18,12 @@
 
 struct PSOutFixedColor
 {
-	float4 Color : SV_Target0;
+	float4 Color : SV_Target;
 };
 
 PSOutFixedColor ShaderPixel( ShaderPixelIn IN )
 {
+	(ShaderPixelIn)IN;
 	PSOutFixedColor OUT = (PSOutFixedColor)0;
 
 	OUT.Color = float4(

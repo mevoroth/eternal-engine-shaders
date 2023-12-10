@@ -1,7 +1,6 @@
 #ifndef _DIRECT_LIGHTING_COMMON_HLSL_
 #define _DIRECT_LIGHTING_COMMON_HLSL_
 
-#include "platform.common.hlsl"
 #include "common.hlsl"
 #include "perview.common.hlsl"
 #include "screen.common.hlsl"
