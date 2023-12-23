@@ -6,7 +6,7 @@
 
 struct ShaderVertexIn
 {
-	float4 Pos : SV_Position;
+	float4 Pos : POSITION;
 	float4 Col : COLOR0;
 };
 
@@ -18,8 +18,7 @@ struct ShaderPixelIn
 
 struct ShaderPixelOut
 {
-	float Diffuse	: SV_Target0;
-	float Depth		: SV_Depth;
+	float4 Diffuse	: SV_Target;
 };
 
 #endif

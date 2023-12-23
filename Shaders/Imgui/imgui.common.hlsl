@@ -12,7 +12,7 @@ struct ShaderVertexIn
 
 struct ShaderPixelIn
 {
-	float4 SVPosition	: SV_POSITION;
+	float4 SVPosition	: SV_Position;
 	float4 Color		: COLOR0;
 	float2 UV			: TEXCOORD0;
 };
