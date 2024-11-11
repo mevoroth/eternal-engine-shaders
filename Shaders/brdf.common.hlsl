@@ -110,27 +110,27 @@ float PhongNormalizationTerm(float Shininess)
 
 LuminanceOuput EvaluateNull(BRDFInput In)
 {
-	(BRDFInput)In;
+	VOID_RESOURCE(BRDFInput, In);
 	return (LuminanceOuput)0;
 }
 
 LuminanceOuput FresnelNull(float3 F0, float F90, float VdotX)
 {
-	(float3)F0;
-	(float)F90;
-	(float)VdotX;
+	VOID_RESOURCE(float3, F0);
+	VOID_RESOURCE(float, F90);
+	VOID_RESOURCE(float, VdotX);
 	return (LuminanceOuput)1;
 }
 
 float NormalDistributionNull(BRDFInput In)
 {
-	(BRDFInput)In;
+	VOID_RESOURCE(BRDFInput, In);
 	return 0.5f;
 }
 
 float GeometryAttenuationNull(BRDFInput In)
 {
-	(BRDFInput)In;
+	VOID_RESOURCE(BRDFInput, In);
 	return 1.0f;
 }
 
@@ -190,7 +190,7 @@ LuminanceOuput EvaluateDiffuseLambert(BRDFInput In)
 
 LuminanceOuput EvaluateDiffuseOrenNayar(BRDFInput In)
 {
-	(BRDFInput)In;
+	VOID_RESOURCE(BRDFInput, In);
 	LuminanceOuput Out = (LuminanceOuput)0;
 
 	return Out;

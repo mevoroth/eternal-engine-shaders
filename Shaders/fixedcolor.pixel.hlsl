@@ -23,7 +23,7 @@ struct PSOutFixedColor
 
 PSOutFixedColor ShaderPixel( ShaderPixelIn IN )
 {
-	(ShaderPixelIn)IN;
+	VOID_RESOURCE(ShaderPixelIn, IN);
 	PSOutFixedColor OUT = (PSOutFixedColor)0;
 
 	OUT.Color = float4(

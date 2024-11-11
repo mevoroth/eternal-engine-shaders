@@ -104,7 +104,7 @@ void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 	const float Depth				= DepthTexture[DTid.xy].x;
 	const float3 GeometryPosition	= UVDepthToWorldPosition(ScreenUV, Depth, PerViewConstantBuffer.ClipToWorld);
 	const float GeometryIntersect	= dot(GeometryPosition, RayDirection);
-	(float)GeometryIntersect;
+	VOID_RESOURCE(float, GeometryIntersect);
 
 	float CloudsMarchingRangeMax = min(distance(GeometryPosition, RayOrigin), 10000.0f);
 

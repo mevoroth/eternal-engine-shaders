@@ -78,7 +78,7 @@ ShaderPixelIn ComputeShaderPixelIn(ShaderVertexIn IN, PerDrawConstants PerDrawCo
 
 	float3 Tangent = cross(OUT.Normal, float3(1.0f, 0.0f, 0.0f));
 	float3 Binormal = cross(Tangent, OUT.Normal);
-	(float3)Binormal;
+	VOID_RESOURCE(float3, Binormal);
 
 	#if OBJECT_NEEDS_TANGENT
 		OUT.Tangent = IN.Tangent;

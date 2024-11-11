@@ -1,5 +1,11 @@
 #if ETERNAL_PLATFORM_DX12
 
+#if ETERNAL_PLATFORM_FXC
+#define VOID_RESOURCE(ResourceType, ResourceName)									(ResourceType)ResourceName;
+#else
+#define VOID_RESOURCE(ResourceType, ResourceName)									(void)ResourceName;
+#endif
+
 #define DX12_CONCATENATE_REGISTER(ShaderResource, Register)							ShaderResource Register
 
 #define REGISTER_T(ShaderResource, Index, Set)										DX12_CONCATENATE_REGISTER(ShaderResource, : register(t##Index))
