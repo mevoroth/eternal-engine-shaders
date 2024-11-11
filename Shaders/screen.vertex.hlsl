@@ -65,7 +65,13 @@ struct ShaderVertexIn
 
 ShaderPixelIn ShaderVertex( ShaderVertexIn IN )
 {
-	uint Index = Indices[IN.VertexIndex];
+#if USE_FULLSCREEN_MODE == FULLSCREEN_MODE_QUAD
+	const uint VerticesCount = 6;
+#else
+	const uint VerticesCount = 3;
+#endif
+
+	uint Index = Indices[IN.VertexIndex % VerticesCount];
 
 	ShaderPixelIn OUT = (ShaderPixelIn) 0;
 
