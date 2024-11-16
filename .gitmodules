@@ -1,3 +1,5 @@
 [submodule "ShadersPrivate"]
 	path = ShadersPrivate
 	url = git@github.com:mevoroth/eternal-engine-shaders-private.git
+	update = rebase
+	branch = main
