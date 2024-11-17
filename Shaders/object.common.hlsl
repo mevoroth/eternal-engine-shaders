@@ -8,19 +8,31 @@
 #include "ShadersReflection/HLSLPerDrawConstants.hpp"
 
 #ifndef OBJECT_NEEDS_NORMAL
-#define OBJECT_NEEDS_NORMAL			(0)
+#define OBJECT_NEEDS_NORMAL						(0)
 #endif
 
 #ifndef OBJECT_NEEDS_TANGENT
-#define OBJECT_NEEDS_TANGENT		(0)
+#define OBJECT_NEEDS_TANGENT					(0)
 #endif
 
 #ifndef OBJECT_NEEDS_BINORMAL
-#define OBJECT_NEEDS_BINORMAL		(0)
+#define OBJECT_NEEDS_BINORMAL					(0)
 #endif
 
 #ifndef OBJECT_NEEDS_UV
-#define OBJECT_NEEDS_UV				(0)
+#define OBJECT_NEEDS_UV							(0)
+#endif
+
+#ifndef OUTPUTS_ALBEDO
+#define OUTPUTS_ALBEDO							(0)
+#endif
+
+#ifndef OUTPUTS_NORMAL
+#define OUTPUTS_NORMAL							(0)
+#endif
+
+#ifndef OUTPUTS_ROUGHNESS_METALLIC_SPECULAR
+#define OUTPUTS_ROUGHNESS_METALLIC_SPECULAR		(0)
 #endif
 
 struct ShaderVertexIn
@@ -61,9 +73,15 @@ struct ShaderPixelIn
 struct ShaderPixelOut
 {
 	float3 Emissive						: SV_Target0;
+#if OUTPUTS_ALBEDO
 	float4 Albedo						: SV_Target1;
+#endif
+#if OUTPUTS_NORMAL
 	float4 Normal						: SV_Target2;
+#endif
+#if OUTPUTS_ROUGHNESS_METALLIC_SPECULAR
 	float4 RoughnessMetallicSpecular	: SV_Target3;
+#endif
 };
 
 ShaderPixelIn ComputeShaderPixelIn(ShaderVertexIn IN, PerDrawConstants PerDrawConstantBuffer, PerViewConstants PerViewConstantBuffer, PerInstanceInformation PerInstanceInformationStructuredBuffer)
