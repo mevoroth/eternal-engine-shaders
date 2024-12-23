@@ -3,12 +3,36 @@
 
 #include "constants.common.hlsl"
 
-#define SPHERICAL_HARMONICS_BAND0_COEFFICIENT_0		(sqrt(1.0f / (4.0f * PI)))
-#define SPHERICAL_HARMONICS_BAND1_COEFFICIENT_0		(sqrt(3.0f / (4.0f * PI)))
-#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_0		(sqrt(15.0f / (4.0f * PI)))
-#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_1		(3.0f * sqrt(5.0f / (16.0f * PI)))
-#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_2		(-sqrt(5.0f / (16.0f * PI)))
-#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_3		(sqrt(15.0f / (16.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND0_COEFFICIENT_0			(sqrt(1.0f / (4.0f * PI)))
+
+#define SPHERICAL_HARMONICS_BAND1_COEFFICIENT_0			(sqrt(3.0f / (4.0f * PI)))
+
+#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_0			(sqrt(15.0f / (4.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_1			(3.0f * sqrt(5.0f / (16.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_2			(-sqrt(5.0f / (16.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND2_COEFFICIENT_3			(sqrt(15.0f / (16.0f * PI)))
+
+#define SPHERICAL_HARMONICS_BAND0_PACK_COEFFICIENT_0	(sqrt(1.0f / (4.0f * PI)))
+
+#define SPHERICAL_HARMONICS_BAND1_PACK_COEFFICIENT_0	(sqrt(1.0f / (3.0f * PI)))
+
+#define SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_0	(sqrt(5.0f / (256.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_1	(sqrt(15.0f / (64.0f * PI)))
+#define SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_2	(0.5f * SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_1)
+
+static const float4 SphericalHarmonicsBand01PackCoefficient0 = float4(
+	-SPHERICAL_HARMONICS_BAND1_PACK_COEFFICIENT_0,
+	-SPHERICAL_HARMONICS_BAND1_PACK_COEFFICIENT_0,
+	 SPHERICAL_HARMONICS_BAND1_PACK_COEFFICIENT_0,
+	 SPHERICAL_HARMONICS_BAND0_PACK_COEFFICIENT_0
+);
+
+static const float4 SphericalHarmonicsBand012PackCoefficient0 = float4(
+	 SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_1,
+	-SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_1,
+	3.0f * SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_0,
+	-SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_1
+);
 
 struct SphericalHarmonicsBand0
 {
@@ -304,7 +328,105 @@ float3 DecodeSphericalHarmonicsBand012(SphericalHarmonicsBand012RGB InBand, floa
 	) * WeightBand2_1;
 	
 	return max(DecodedBand01 + DecodedBand2_0 + DecodedBand2_1, 0.0f);
+}
 
+void PackSphericalHarmonicsBand0(SphericalHarmonicsBand0RGB InBand, out float3 OutPackedBand)
+{
+	OutPackedBand = float3(
+		InBand.R.Value,
+		InBand.G.Value,
+		InBand.B.Value
+	) * SPHERICAL_HARMONICS_BAND0_PACK_COEFFICIENT_0;
+}
+
+void PackSphericalHarmonicsBand01(SphericalHarmonicsBand01RGB InBand, out float4 OutPackedBand[3])
+{
+	OutPackedBand[0] = float4(
+		InBand.R.Band1.Values.zxy,
+		InBand.R.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+
+	OutPackedBand[1] = float4(
+		InBand.G.Band1.Values.zxy,
+		InBand.G.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+	
+	OutPackedBand[2] = float4(
+		InBand.B.Band1.Values.zxy,
+		InBand.B.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+}
+
+void PackSphericalHarmonicsBand012(SphericalHarmonicsBand012RGB InBand, out float4 OutPackedBand[7])
+{
+	OutPackedBand[0] = float4(
+		InBand.R.Band01.Band1.Values.zxy,
+		InBand.R.Band01.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+	OutPackedBand[0].w -= InBand.R.Band2.Values0.z * SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_0;
+	
+	OutPackedBand[1] = float4(
+		InBand.G.Band01.Band1.Values.zxy,
+		InBand.G.Band01.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+	OutPackedBand[1].w -= InBand.G.Band2.Values0.z * SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_0;
+	
+	OutPackedBand[2] = float4(
+		InBand.B.Band01.Band1.Values.zxy,
+		InBand.B.Band01.Band0.Value
+	) * SphericalHarmonicsBand01PackCoefficient0;
+	OutPackedBand[2].w -= InBand.B.Band2.Values0.z * SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_0;
+	
+	OutPackedBand[3] = InBand.R.Band2.Values0 * SphericalHarmonicsBand012PackCoefficient0;
+	OutPackedBand[4] = InBand.G.Band2.Values0 * SphericalHarmonicsBand012PackCoefficient0;
+	OutPackedBand[5] = InBand.B.Band2.Values0 * SphericalHarmonicsBand012PackCoefficient0;
+	
+	OutPackedBand[6] = float4(
+		InBand.R.Band2.Value1,
+		InBand.G.Band2.Value1,
+		InBand.B.Band2.Value1,
+		1.0f
+	);
+	OutPackedBand[6].rgb *= SPHERICAL_HARMONICS_BAND2_PACK_COEFFICIENT_2;
+}
+
+SphericalHarmonicsBand0RGB UnpackSphericalHarmonicsBand0(float3 InPackedBand)
+{
+	SphericalHarmonicsBand0RGB Result = (SphericalHarmonicsBand0RGB)0;
+	Result.R.Value = InPackedBand.r;
+	Result.G.Value = InPackedBand.g;
+	Result.B.Value = InPackedBand.b;
+	return Result;
+}
+
+SphericalHarmonicsBand01RGB UnpackSphericalHarmonicsBand01(float4 InPackedBand[3])
+{
+	SphericalHarmonicsBand01RGB Result = (SphericalHarmonicsBand01RGB)0;
+	Result.R.Band0.Value	= InPackedBand[0].w;
+	Result.R.Band1.Values	= InPackedBand[0].xyz;
+	Result.G.Band0.Value	= InPackedBand[1].w;
+	Result.G.Band1.Values	= InPackedBand[1].xyz;
+	Result.B.Band0.Value	= InPackedBand[2].w;
+	Result.B.Band1.Values	= InPackedBand[2].xyz;
+	return Result;
+}
+
+SphericalHarmonicsBand012RGB UnpackSphericalHarmonicsBand012(float4 InPackedBand[7])
+{
+	SphericalHarmonicsBand012RGB Result = (SphericalHarmonicsBand012RGB)0;
+	Result.R.Band01.Band0.Value		= InPackedBand[0].w;
+	Result.R.Band01.Band1.Values	= InPackedBand[0].xyz;
+	Result.G.Band01.Band0.Value		= InPackedBand[1].w;
+	Result.G.Band01.Band1.Values	= InPackedBand[1].xyz;
+	Result.B.Band01.Band0.Value		= InPackedBand[2].w;
+	Result.B.Band01.Band1.Values	= InPackedBand[2].xyz;
+	Result.R.Band2.Values0			= InPackedBand[3].xyzw;
+	Result.G.Band2.Values0			= InPackedBand[4].xyzw;
+	Result.B.Band2.Values0			= InPackedBand[5].xyzw;
+	Result.R.Band2.Value1			= InPackedBand[6].r;
+	Result.G.Band2.Value1			= InPackedBand[6].g;
+	Result.B.Band2.Value1			= InPackedBand[6].b;
+	return Result;
 }
 
 #endif
