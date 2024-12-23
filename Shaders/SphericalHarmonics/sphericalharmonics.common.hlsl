@@ -195,8 +195,8 @@ SphericalHarmonicsBand2 Mul(SphericalHarmonicsBand2 InBand, float InMultiplier)
 SphericalHarmonicsBand01 Mul(SphericalHarmonicsBand01 InBand, float InMultiplier)
 {
 	SphericalHarmonicsBand01 Result = (SphericalHarmonicsBand01)0;
-	Result.Band0 = Add(InBand.Band0, InMultiplier);
-	Result.Band1 = Add(InBand.Band1, InMultiplier);
+	Result.Band0 = Mul(InBand.Band0, InMultiplier);
+	Result.Band1 = Mul(InBand.Band1, InMultiplier);
 	return Result;
 }
 
