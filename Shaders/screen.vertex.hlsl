@@ -1,5 +1,5 @@
-#ifndef _SCREEN_VS_HLSL_
-#define _SCREEN_VS_HLSL_
+#ifndef _SCREEN_VERTEX_HLSL_
+#define _SCREEN_VERTEX_HLSL_
 
 #include "screen.common.hlsl"
 
