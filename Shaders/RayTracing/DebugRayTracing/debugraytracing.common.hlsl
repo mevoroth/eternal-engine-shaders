@@ -1,7 +1,7 @@
 #ifndef _DEBUG_RAYTRACING_COMMON_HLSL_
 #define _DEBUG_RAYTRACING_COMMON_HLSL_
 
-#include "ShadersReflection/RayTracing/Debug/HLSLRayGenerationConstants.hpp"
+#include "ShadersReflection/RayTracing/DebugRayTracing/HLSLRayGenerationConstants.hpp"
 
 struct RayPayload
 {
