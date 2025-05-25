@@ -7,6 +7,10 @@
 #include "perinstance.common.hlsl"
 #include "ShadersReflection/HLSLPerDrawConstants.hpp"
 
+#ifndef OBJECT_HAS_INSTANCES
+#define OBJECT_HAS_INSTANCES					(0)
+#endif
+
 #ifndef OBJECT_NEEDS_NORMAL
 #define OBJECT_NEEDS_NORMAL						(0)
 #endif
