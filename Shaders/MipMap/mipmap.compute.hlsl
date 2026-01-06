@@ -43,6 +43,11 @@ RW_RESOURCE(MIPMAP_TEXTURE_TYPE_RW, MIPMAP_TEXTURE_FORMAT, MIPMAP_SPIRV_FORMAT,	
 //REGISTER_B_PER_VIEW_CONSTANT_BUFFER(															0, 0);
 CONSTANT_BUFFER(MipMapConstants, MipMapConstantBuffer,											0, 0);
 
+#if MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE1D
+#define MIPMAP_ANY( Value )						(Value)
+#else
+#define MIPMAP_ANY( Value )						(any(Value))
+#endif
 
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
 void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
@@ -80,7 +85,7 @@ void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 	
 	MIPMAP_TEXTURE_FORMAT AccumulatedValue = (MIPMAP_TEXTURE_FORMAT)0.0f;
 	
-	if (any(Pixel >= TextureSize))
+	if (MIPMAP_ANY(Pixel >= TextureSize))
 		return;
 	
 	for (uint SampleIndex = 0; SampleIndex < OffsetsCount; ++SampleIndex)
