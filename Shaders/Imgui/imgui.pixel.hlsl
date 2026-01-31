@@ -1,4 +1,4 @@
-#include "imgui/imgui.common.hlsl"
+#include "Imgui/imgui.common.hlsl"
 
 REGISTER_S(SamplerState ImguiSampler,	0, 0);
 REGISTER_T(Texture2D ImguiTexture,		0, 0);

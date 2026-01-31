@@ -1,4 +1,4 @@
-#include "imgui/imgui.common.hlsl"
+#include "Imgui/imgui.common.hlsl"
 
 CONSTANT_BUFFER(ProjectionConstants, ProjectionConstantBuffer,	0, 0);
 
