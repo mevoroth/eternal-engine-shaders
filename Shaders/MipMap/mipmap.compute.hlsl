@@ -50,16 +50,16 @@ CONSTANT_BUFFER(MipMapConstants, MipMapConstantBuffer,											0, 0);
 #endif
 
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
-void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
+void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 {
 #if MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE1D
-	uint Pixel = DTid.x;
+	uint Pixel = DispatchThreadID.x;
 	uint PixelMip0 = Pixel * 2;
 	uint TextureSize = MipMapConstantBuffer.TextureSize.x;
 	uint Offsets[] = { 0, 1 };
 	const uint OffsetsCount = 2;
 #elif MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE1DARRAY || MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE2D
-	uint2 Pixel = DTid.xy;
+	uint2 Pixel = DispatchThreadID.xy;
 	uint2 PixelMip0 = Pixel * 2;
 	uint2 TextureSize = MipMapConstantBuffer.TextureSize.xy;
 	uint2 Offsets[] =
@@ -69,7 +69,7 @@ void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 	};
 	const uint OffsetsCount = 4;
 #else // MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE2DARRAY || MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE3D
-	uint3 Pixel = DTid.xyz;
+	uint3 Pixel = DispatchThreadID.xyz;
 	uint3 PixelMip0 = Pixel * 2;
 	uint3 TextureSize = MipMapConstantBuffer.TextureSize.xyz;
 	uint3 Offsets[] =

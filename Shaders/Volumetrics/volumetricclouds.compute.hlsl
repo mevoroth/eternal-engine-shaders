@@ -90,18 +90,18 @@ bool InitializeCloudsMarchingRange(float3 RayOrigin, float3 RayDirection, float 
 }
 
 [numthreads(THREAD_GROUP_COUNT_X, THREAD_GROUP_COUNT_Y, THREAD_GROUP_COUNT_Z)]
-void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
+void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 {
-	if (any((int2)DTid.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
+	if (any((int2)DispatchThreadID.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
 		return;
 	
-	const float2 ScreenUV		= (DTid.xy + 0.5f) * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
+	const float2 ScreenUV		= (DispatchThreadID.xy + 0.5f) * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
 	const float3 RayOrigin		= PerViewConstantBuffer.ViewPosition.xyz;
 	const float3 RayDirection	= normalize(UVDepthToWorldPosition(ScreenUV, PerViewConstantBuffer.ViewRenderFarPlane, PerViewConstantBuffer.ClipToWorld) - RayOrigin);
 
 	float2 CloudsMarchingMinMax		= (float2)0.0f;
 	
-	const float Depth				= DepthTexture[DTid.xy].x;
+	const float Depth				= DepthTexture[DispatchThreadID.xy].x;
 	const float3 GeometryPosition	= UVDepthToWorldPosition(ScreenUV, Depth, PerViewConstantBuffer.ClipToWorld);
 	const float GeometryIntersect	= dot(GeometryPosition, RayDirection);
 	VOID_RESOURCE(float, GeometryIntersect);
@@ -150,5 +150,5 @@ void ShaderCompute( uint3 DTid : SV_DispatchThreadID )
 		DistanceMeters += CloudsMarchingDeltaMeters;
 	}
 
-	//OutColor[DTid.xy] = OutColor[DTid.xy].rgb * (1.0f.xxx - Transmittance) + Luminance;
+	//OutColor[DispatchThreadID.xy] = OutColor[DispatchThreadID.xy].rgb * (1.0f.xxx - Transmittance) + Luminance;
 }
