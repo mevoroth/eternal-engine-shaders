@@ -14,7 +14,7 @@ void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 	if (any((int2)DispatchThreadID.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
 		return;
 
-	float2 UV = (float2)DispatchThreadID.xy * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
+	float2 UV = ((float2)DispatchThreadID.xy + 0.5f) * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
 
 	float3 AccumulatedColor = (float3)0.0f;
 	for (uint OctaveIndex = 0; OctaveIndex < ChromaticAberrationConstantBuffer.ChromaticAberrationOctavesCount; ++OctaveIndex)
