@@ -9,43 +9,38 @@ struct SphereDescription
 	float SphereRadiusMetersSquared;
 };
 
-SphereDescription InitializeSphereDescription(float SphereRadiusMetersSquared, float3 SphereCenter = (float3)0.0f)
+SphereDescription InitializeSphereDescription(float InSphereRadiusMetersSquared, float3 InSphereCenter = (float3)0.0f)
 {
 	SphereDescription Description			= (SphereDescription)0;
-	Description.SphereCenter				= SphereCenter;
-	Description.SphereRadiusMetersSquared	= SphereRadiusMetersSquared;
+	Description.SphereCenter				= InSphereCenter;
+	Description.SphereRadiusMetersSquared	= InSphereRadiusMetersSquared;
 	return Description;
 }
 
-float ColorToLuminance(float3 Color)
+float2 UVToClipXY(float2 InUV)
 {
-	return dot(Color, float3(0.2126f, 0.7152f, 0.0722f));
+	return InUV * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
 }
 
-float2 UVToClipXY(float2 UV)
+float3 UVDepthToWorldPosition(float2 InUV, float InDepth, float4x4 InClipToWorld)
 {
-	return UV * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
-}
-
-float3 UVDepthToWorldPosition(float2 UV, float Depth, float4x4 ClipToWorld)
-{
-	float4 ClipPosition		= float4(UVToClipXY(UV), Depth, 1.0f);
-	float4 WorldPosition	= mul(ClipToWorld, ClipPosition);
+	float4 ClipPosition		= float4(UVToClipXY(InUV), InDepth, 1.0f);
+	float4 WorldPosition	= mul(InClipToWorld, ClipPosition);
 	return WorldPosition.xyz / WorldPosition.w;
 }
 
-float3 SafeNormalize(float3 Vector)
+float3 SafeNormalize(float3 InVector)
 {
-	return Vector * rsqrt(max(dot(Vector, Vector), EPSILON));
+	return InVector * rsqrt(max(dot(InVector, InVector), EPSILON));
 }
 
-bool RaySphereIntersection(float3 RayOrigin, float3 RayDirection, SphereDescription Sphere, out float2 OutSolutions)
+bool RaySphereIntersection(float3 InRayOrigin, float3 InRayDirection, SphereDescription InSphere, out float2 OutSolutions)
 {
-	float3 LocalPosition = RayOrigin - Sphere.SphereCenter.xyz;
+	float3 LocalPosition = InRayOrigin - InSphere.SphereCenter.xyz;
 	float LocalPositionSquared = dot(LocalPosition, LocalPosition);
 	float2 QuadraticCoefficient = float2(
-		2.0f * dot(RayDirection, RayDirection),
-		LocalPositionSquared - Sphere.SphereRadiusMetersSquared
+		2.0f * dot(InRayDirection, InRayDirection),
+		LocalPositionSquared - InSphere.SphereRadiusMetersSquared
 	);
 	float Discriminant = QuadraticCoefficient.x * QuadraticCoefficient.x - 4 * QuadraticCoefficient.y;
 	float SqrtDiscriminant = sqrt(Discriminant);

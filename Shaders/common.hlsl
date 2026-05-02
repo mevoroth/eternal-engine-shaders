@@ -3,5 +3,6 @@
 
 #include "constants.common.hlsl"
 #include "functions.common.hlsl"
+#include "colorspace.common.hlsl"
 
 #endif
