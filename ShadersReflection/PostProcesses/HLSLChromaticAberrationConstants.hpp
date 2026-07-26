@@ -12,6 +12,8 @@ HLSL_END_STRUCT(ChromaticAberrationOctave)
 
 HLSL_BEGIN_STRUCT(ChromaticAberrationConstants)
 	ChromaticAberrationOctave ChromaticAberrationOctaves[CHROMATIC_ABERRATION_OCTAVES_COUNT];
+	float2 ChromaticAberrationOffsetDirection;
+	float ChromaticAberrationStrength;
 	uint ChromaticAberrationOctavesCount;
 HLSL_END_STRUCT(ChromaticAberrationConstants)
 

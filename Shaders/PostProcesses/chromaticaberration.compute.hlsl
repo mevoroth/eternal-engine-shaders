@@ -15,8 +15,10 @@ void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 		return;
 
 	float2 UV = ((float2)DispatchThreadID.xy + 0.5f) * PerViewConstantBuffer.ViewSizeAndInverseSize.zw;
+	
+	float3 OriginalColor = ColorTexture.SampleLevel(BilinearSampler, UV, 0).rgb;
 
-	float3 AccumulatedColor = (float3)0.0f;
+	float3 AccumulatedColor = 0.0f;
 	for (uint OctaveIndex = 0; OctaveIndex < ChromaticAberrationConstantBuffer.ChromaticAberrationOctavesCount; ++OctaveIndex)
 	{
 		float3 OctaveColor = ColorTexture.SampleLevel(BilinearSampler, UV + ChromaticAberrationConstantBuffer.ChromaticAberrationOctaves[OctaveIndex].OctaveDirection, 0).rgb;
@@ -24,5 +26,5 @@ void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 		AccumulatedColor += OctaveColor;
 	}
 
-	OutColor[DispatchThreadID.xy] = AccumulatedColor;
+	OutColor[DispatchThreadID.xy] = OriginalColor + AccumulatedColor * ChromaticAberrationConstantBuffer.ChromaticAberrationStrength;
 }
