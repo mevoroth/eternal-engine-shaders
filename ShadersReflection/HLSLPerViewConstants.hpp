@@ -17,6 +17,7 @@ HLSL_BEGIN_STRUCT(PerViewConstants)
 	float ViewRenderFarPlane;
 	float ViewNearPlane;
 	float ViewFarPlane;
+	float CurrentTime;
 HLSL_END_STRUCT(PerViewConstants)
 
 HLSL_BEGIN_STRUCT(PerViewCubeMapConstants)
