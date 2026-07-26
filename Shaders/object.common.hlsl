@@ -11,6 +11,10 @@
 #define OBJECT_HAS_INSTANCES					(0)
 #endif
 
+#ifndef OBJECT_NEEDS_COLOR
+#define OBJECT_NEEDS_COLOR						(0)
+#endif
+
 #ifndef OBJECT_NEEDS_NORMAL
 #define OBJECT_NEEDS_NORMAL						(0)
 #endif
@@ -43,6 +47,9 @@ struct ShaderVertexIn
 {
 	float3 PositionWS	: POSITION;
 	uint InstanceIndex	: SV_InstanceID;
+#if OBJECT_NEEDS_COLOR
+	float4 Color		: COLOR0;
+#endif
 #if OBJECT_NEEDS_NORMAL
 	float3 Normal		: NORMAL;
 #endif
@@ -60,6 +67,9 @@ struct ShaderVertexIn
 struct ShaderPixelIn
 {
 	float4 SVPosition	: SV_Position;
+#if OBJECT_NEEDS_COLOR
+	float4 Color		: COLOR0;
+#endif
 #if OBJECT_NEEDS_NORMAL
 	float3 Normal		: NORMAL;
 #endif
@@ -95,6 +105,9 @@ ShaderPixelIn ComputeShaderPixelIn(ShaderVertexIn IN, PerDrawConstants PerDrawCo
 	OUT.SVPosition = mul(float4(IN.PositionWS, 1.0f), PerDrawConstantBuffer.SubMeshToWorldTransposed);
 	OUT.SVPosition = mul(PerInstanceInformationStructuredBuffer.InstanceWorldToWorld, OUT.SVPosition);
 	OUT.SVPosition = mul(PerViewConstantBuffer.WorldToClip, OUT.SVPosition);
+#if OBJECT_NEEDS_COLOR
+	OUT.Color = IN.Color;
+#endif
 #if OBJECT_NEEDS_NORMAL
 	OUT.Normal = IN.Normal;
 
