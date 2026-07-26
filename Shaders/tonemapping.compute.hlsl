@@ -10,6 +10,6 @@ void ShaderCompute( uint3 DispatchThreadID : SV_DispatchThreadID )
 	if (any((int2)DispatchThreadID.xy >= PerViewConstantBuffer.ViewSizeAndInverseSize.xy))
 		return;
 
-	float4 Color = OutColor[DTid.xy];
+	float4 Color = OutColor[DispatchThreadID.xy];
 	OutColor[DispatchThreadID.xy] = Color / (Color + 1);
 }
