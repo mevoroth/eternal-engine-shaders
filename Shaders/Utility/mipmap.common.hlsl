@@ -2,6 +2,6 @@
 #define _MIPMAP_COMMON_HLSL_
 
 #include "common.hlsl"
-#include "ShadersReflection/MipMap/HLSLMipMapConstants.hpp"
+#include "ShadersReflection/Utility/HLSLMipMapConstants.hpp"
 
 #endif

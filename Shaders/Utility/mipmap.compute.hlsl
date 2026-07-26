@@ -1,4 +1,4 @@
-#include "MipMap/mipmap.common.hlsl"
+#include "Utility/mipmap.common.hlsl"
 
 #define MIPMAP_TEXTURE_TYPE_TEXTURE1D			(0)
 #define MIPMAP_TEXTURE_TYPE_TEXTURE1DARRAY		(1)
@@ -40,7 +40,6 @@
 
 REGISTER_T(MIPMAP_TEXTURE TextureMip0,															0, 0);
 RW_RESOURCE(MIPMAP_TEXTURE_TYPE_RW, MIPMAP_TEXTURE_FORMAT, MIPMAP_SPIRV_FORMAT,	OutTextureMip1,	0, 0);
-//REGISTER_B_PER_VIEW_CONSTANT_BUFFER(															0, 0);
 CONSTANT_BUFFER(MipMapConstants, MipMapConstantBuffer,											0, 0);
 
 #if MIPMAP_TEXTURE_TYPE == MIPMAP_TEXTURE_TYPE_TEXTURE1D
