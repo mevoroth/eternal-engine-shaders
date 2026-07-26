@@ -76,7 +76,9 @@ ShaderPixelIn ShaderVertex( ShaderVertexIn IN )
 	ShaderPixelIn OUT = (ShaderPixelIn) 0;
 
 	OUT.SvPosition				= float4(VerticesSvPositions[Index], 0.0f, 1.0f);
+#if USE_UV
 	OUT.UV						= UVs[Index];
+#endif
 #if USE_MULTIPLE_LAYER_RENDER_TARGETS
 	OUT.RenderTargetArrayIndex	= IN.InstanceIndex;
 #endif
